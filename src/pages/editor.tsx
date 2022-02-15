@@ -2,23 +2,26 @@ import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { Track } from "./api/saved-tracks";
 import { savedTrackResponseJson } from "../shcema";
+import { editorContainer, header, savedTracksContainer, savedTracksItem } from "../editor.css";
 
 const Editor: NextPage = () => {
   const { savedTracks, loading } = useSpotify();
 
   return (
-    <div>
-      <h1>Editor</h1>
+    <div className={editorContainer}>
+      <h1 className={header}>Editor</h1>
       {loading ? (
         <div>loading...</div>
       ) : (
-        savedTracks.map((track, index) => (
-          <div key={index}>
-            <div>
-              {track.name} by {track.artistName}
+        <div className={savedTracksContainer}>
+          {savedTracks.map((track, index) => (
+            <div key={index} className={savedTracksItem}>
+              <div>
+                {track.name} by {track.artistName}
+              </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );
