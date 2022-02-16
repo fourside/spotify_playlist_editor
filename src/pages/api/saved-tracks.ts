@@ -1,21 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 import { SavedTrackResponse, Track } from "../../model";
 import { getSavedTracks } from "../../spotify/client";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<SavedTrackResponse | undefined>) {
-  const cookie = req.headers.cookie;
-  if (cookie === undefined) {
-    console.log("No cookie");
+  const session = await getSession({ req });
+  if (session === null) {
+    console.log("No session");
     res.status(403).send(undefined);
     return;
   }
-  const accessTokenKeyValue = cookie.split("; ").find((cookie) => cookie.startsWith("access_token="));
-  if (accessTokenKeyValue === undefined) {
-    console.log("No access token key value");
+  const accessToken = session.token?.accessToken;
+  if (accessToken === undefined) {
+    console.log("No access token");
     res.status(403).send(undefined);
     return;
   }
-  const accessToken = accessTokenKeyValue.split("=")[1];
 
   try {
     const parsed = await getSavedTracks(accessToken);
