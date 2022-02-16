@@ -1,12 +1,6 @@
 import { z } from "zod";
-import { SavedTrackResponse, Track } from "./pages/api/saved-tracks";
-import { SpotifyAlbum, SpotifySavedTrack, SpotifyResponse, SpotifyTrack } from "./types";
-
-const schemaForType =
-  <T>() =>
-  <S extends z.ZodType<T, any, any>>(arg: S) => {
-    return arg;
-  };
+import { schemaForType } from "../lib/schema-for-type";
+import { SpotifyAlbum, SpotifyResponse, SpotifySavedTrack, SpotifyTrack } from "./model";
 
 const spotifyAlbumJson = schemaForType<SpotifyAlbum>()(
   z.object({
@@ -52,22 +46,5 @@ export const spotifySavedTrackResponseJson = schemaForType<SpotifyResponse<Spoti
     next: z.nullable(z.string()),
     previous: z.nullable(z.string()),
     total: z.number(),
-  })
-);
-
-const trackJson = schemaForType<Track>()(
-  z.object({
-    id: z.string(),
-    name: z.string(),
-    artistName: z.string(),
-    albumImageUrl: z.string(),
-    durationMs: z.number(),
-    popularity: z.number(),
-  })
-);
-
-export const savedTrackResponseJson = schemaForType<SavedTrackResponse>()(
-  z.object({
-    tracks: z.array(trackJson),
   })
 );

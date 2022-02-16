@@ -1,20 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { spotifySavedTrackResponseJson } from "../../shcema";
-
-export type SavedTrackResponse = {
-  tracks: Track[];
-};
-
-export type Track = {
-  id: string;
-  name: string;
-  artistName: string;
-  albumImageUrl: string;
-  durationMs: number;
-  popularity: number;
-};
-
-const baseUrl = "https://api.spotify.com/v1";
+import { SavedTrackResponse, Track } from "../../model";
+import { getSavedTracks } from "../../spotify/client";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<SavedTrackResponse | undefined>) {
   const cookie = req.headers.cookie;
@@ -32,23 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const accessToken = accessTokenKeyValue.split("=")[1];
 
   try {
-    const response = await fetch(`${baseUrl}/me/tracks`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      credentials: "include",
-    });
-    console.log(response);
-
-    const json = await response.json();
-
-    if (!response.ok) {
-      console.log("not ok", json);
-      res.status(403).send(undefined);
-      return;
-    }
-
-    const parsed = spotifySavedTrackResponseJson.parse(json);
+    const parsed = await getSavedTracks(accessToken);
     const tracks = parsed.items.map<Track>((savedTrack) => {
       return {
         id: savedTrack.track.id,

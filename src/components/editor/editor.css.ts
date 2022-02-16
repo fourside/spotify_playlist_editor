@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
-export const editorContainer = style({
+export const container = style({
   height: "100vh",
   overflow: "hidden",
 });
@@ -13,14 +13,14 @@ export const header = style({
   paddingLeft: "16px",
 });
 
-export const savedTracksContainer = style({
+export const tracksContainer = style({
   width: "50%",
   height: "calc(100% - 80px)",
   padding: "16px",
   overflowY: "scroll",
 });
 
-export const savedTracksItem = style({
+export const savedTrackItem = style({
   display: "grid",
   padding: "8px",
   borderRadius: "4px",
