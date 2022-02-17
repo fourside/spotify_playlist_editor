@@ -32,3 +32,12 @@ export type SpotifyAlbum = {
     width: number;
   }[];
 };
+
+export type SpotifyPlaylist = {
+  id: string;
+  name: string;
+  owner: {
+    id: string;
+    display_name: string;
+  };
+};

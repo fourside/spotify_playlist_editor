@@ -1,13 +1,27 @@
 import useSWR from "swr";
-import { getSavedTracks } from "../../lib/client";
-import { Track } from "../../model";
+import { getMyPlaylists, getSavedTracks } from "../../lib/client";
+import { Track, Playlist } from "../../model";
 
-export function useSpotify(): { savedTracks: Track[] | undefined; loading: boolean; error: Error | undefined } {
+export function useSavedTracks(): { savedTracks: Track[] | undefined; loading: boolean; error: Error | undefined } {
   const { data, error } = useSWR("saved-tracks", getSavedTracks);
 
   return {
     savedTracks: data?.tracks,
-    loading: data?.tracks === undefined && error === undefined,
+    loading: data === undefined && error === undefined,
+    error: error,
+  };
+}
+
+export function useMyPlaylists(): {
+  myPlaylists: Playlist[] | undefined;
+  loading: boolean;
+  error: Error | undefined;
+} {
+  const { data, error } = useSWR("my-playlists", getMyPlaylists);
+
+  return {
+    myPlaylists: data?.playlists,
+    loading: data === undefined && error === undefined,
     error: error,
   };
 }

@@ -10,3 +10,12 @@ export type Track = {
   durationMs: number;
   popularity: number;
 };
+
+export type PlaylistResponse = {
+  playlists: Playlist[];
+};
+
+export type Playlist = {
+  id: string;
+  name: string;
+};
