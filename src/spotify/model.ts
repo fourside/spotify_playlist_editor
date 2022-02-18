@@ -41,3 +41,7 @@ export type SpotifyPlaylist = {
     display_name: string;
   };
 };
+
+export type SpotifyPlaylistTrack = {
+  track: SpotifyTrack;
+};

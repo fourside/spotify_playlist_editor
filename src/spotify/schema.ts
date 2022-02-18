@@ -1,6 +1,13 @@
 import { z } from "zod";
 import { schemaForType } from "../lib/schema-for-type";
-import { SpotifyAlbum, SpotifyPlaylist, SpotifyResponse, SpotifySavedTrack, SpotifyTrack } from "./model";
+import {
+  SpotifyAlbum,
+  SpotifyPlaylist,
+  SpotifyPlaylistTrack,
+  SpotifyResponse,
+  SpotifySavedTrack,
+  SpotifyTrack,
+} from "./model";
 
 const spotifyAlbumJson = schemaForType<SpotifyAlbum>()(
   z.object({
@@ -64,6 +71,22 @@ export const spotifyPlaylistResponseJson = schemaForType<SpotifyResponse<Spotify
   z.object({
     href: z.string(),
     items: z.array(spotifyPlaylist),
+    limit: z.number(),
+    offset: z.number(),
+    next: z.nullable(z.string()),
+    previous: z.nullable(z.string()),
+    total: z.number(),
+  })
+);
+
+export const spotifyPlaylistTrackResponseJson = schemaForType<SpotifyResponse<SpotifyPlaylistTrack>>()(
+  z.object({
+    href: z.string(),
+    items: z.array(
+      z.object({
+        track: spotifyTrackJson,
+      })
+    ),
     limit: z.number(),
     offset: z.number(),
     next: z.nullable(z.string()),

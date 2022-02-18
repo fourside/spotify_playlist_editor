@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { schemaForType } from "./lib/schema-for-type";
-import { Playlist, PlaylistResponse, SavedTrackResponse, Track } from "./model";
+import { Playlist, PlaylistResponse, PlaylistTrackResponse, SavedTrackResponse, Track } from "./model";
 
 const trackJson = schemaForType<Track>()(
   z.object({
@@ -29,5 +29,11 @@ const playlistJson = schemaForType<Playlist>()(
 export const myPlaylistsResponseJson = schemaForType<PlaylistResponse>()(
   z.object({
     playlists: z.array(playlistJson),
+  })
+);
+
+export const playlistTrackResponseJson = schemaForType<PlaylistTrackResponse>()(
+  z.object({
+    tracks: z.array(trackJson),
   })
 );

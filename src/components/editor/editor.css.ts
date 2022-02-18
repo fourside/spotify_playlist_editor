@@ -38,10 +38,20 @@ export const savedTrackItem = style({
   color: "#333",
 });
 
-export const playListItem = style({
+export const playListContainer = style({
   padding: "8px",
   borderRadius: "4px",
   border: "1px solid #ccc",
   fontSize: "14px",
   color: "#333",
+});
+
+export const playListHeader = style({
+  cursor: "pointer",
+});
+
+export const playlistTracksContainer = style({
+  padding: "16px",
+  overflowY: "scroll",
+  maxHeight: "30vh",
 });

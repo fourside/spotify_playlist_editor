@@ -19,3 +19,7 @@ export type Playlist = {
   id: string;
   name: string;
 };
+
+export type PlaylistTrackResponse = {
+  tracks: Track[];
+};

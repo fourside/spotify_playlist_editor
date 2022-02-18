@@ -1,16 +1,19 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useCallback, VFC } from "react";
-import { useMyPlaylists, useSavedTracks } from "./editor-hooks";
+import { useCallback, useState, VFC } from "react";
+import { useMyPlaylists, useSavedTracks, usePlaylistTracks } from "./editor-hooks";
 import {
   pageContainer,
   header,
   tracksContainer,
   savedTrackItem,
   editorContainer,
-  playListItem,
+  playListContainer,
   playlistContainer,
+  playlistTracksContainer,
+  playListHeader,
 } from "./editor.css";
+import { Playlist, Track } from "../../model";
 
 export const Editor: VFC = () => {
   const { loading: savedTracksLoading, savedTracks, error: savedTracksError } = useSavedTracks();
@@ -61,11 +64,7 @@ export const Editor: VFC = () => {
         ) : (
           <div className={tracksContainer}>
             {savedTracks?.map((track) => (
-              <div key={track.id} className={savedTrackItem}>
-                <div>
-                  {track.name} by {track.artistName}
-                </div>
-              </div>
+              <TrackComponent key={track.id} track={track} />
             ))}
           </div>
         )}
@@ -74,13 +73,57 @@ export const Editor: VFC = () => {
         ) : (
           <div className={playlistContainer}>
             {myPlaylists?.map((playlist) => (
-              <div key={playlist.id} className={playListItem}>
-                <div>{playlist.name}</div>
-              </div>
+              <PlaylistComponent key={playlist.id} playlist={playlist} />
             ))}
           </div>
         )}
       </div>
+    </div>
+  );
+};
+
+type PlaylistComponentProps = {
+  playlist: Playlist;
+};
+
+const PlaylistComponent: VFC<PlaylistComponentProps> = (props) => {
+  const { playlistTracks, error, loading } = usePlaylistTracks(props.playlist.id);
+  const [open, setOpen] = useState(false);
+
+  const handleOpenClick = useCallback(() => {
+    setOpen((prev) => !prev);
+  }, []);
+
+  return (
+    <div className={playListContainer}>
+      <div className={playListHeader} onClick={handleOpenClick}>
+        {props.playlist.name}
+      </div>
+      {open ? (
+        loading ? (
+          <>loading...</>
+        ) : error !== undefined ? (
+          <div>error: {error.message}</div>
+        ) : playlistTracks?.length === 0 ? (
+          <div>no tracks</div>
+        ) : (
+          <div className={playlistTracksContainer}>
+            {playlistTracks?.map((track) => (
+              <TrackComponent key={track.id} track={track} />
+            ))}
+          </div>
+        )
+      ) : null}
+    </div>
+  );
+};
+
+type TrackComponentProps = { track: Track };
+
+const TrackComponent: VFC<TrackComponentProps> = (props) => {
+  return (
+    <div className={savedTrackItem}>
+      {props.track.name} by {props.track.artistName}
     </div>
   );
 };
