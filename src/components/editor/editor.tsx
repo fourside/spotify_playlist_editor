@@ -6,14 +6,20 @@ import {
   pageContainer,
   header,
   tracksContainer,
-  savedTrackItem,
+  trackItem,
   editorContainer,
   playListContainer,
   playlistContainer,
   playlistTracksContainer,
   playListHeader,
+  trackDropTopArea,
+  trackDropBottomArea,
+  trackItemOverTop,
+  trackItemOverBottom,
 } from "./editor.css";
 import { Playlist, Track } from "../../model";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export const Editor: VFC = () => {
   const { loading: savedTracksLoading, savedTracks, error: savedTracksError } = useSavedTracks();
@@ -59,24 +65,26 @@ export const Editor: VFC = () => {
       <h1 className={header}>Editor</h1>
       <button onClick={handleSignOutClick}>SignOut</button>
       <div className={editorContainer}>
-        {savedTracksLoading ? (
-          <div>loading...</div>
-        ) : (
-          <div className={tracksContainer}>
-            {savedTracks?.map((track) => (
-              <TrackComponent key={track.id} track={track} />
-            ))}
-          </div>
-        )}
-        {myPlaylistsLoading ? (
-          <div>loading...</div>
-        ) : (
-          <div className={playlistContainer}>
-            {myPlaylists?.map((playlist) => (
-              <PlaylistComponent key={playlist.id} playlist={playlist} />
-            ))}
-          </div>
-        )}
+        <DndProvider backend={HTML5Backend}>
+          {savedTracksLoading ? (
+            <div>loading...</div>
+          ) : (
+            <div className={tracksContainer}>
+              {savedTracks?.map((track) => (
+                <TrackComponent key={track.id} track={track} dragType="saved-track" />
+              ))}
+            </div>
+          )}
+          {myPlaylistsLoading ? (
+            <div>loading...</div>
+          ) : (
+            <div className={playlistContainer}>
+              {myPlaylists?.map((playlist) => (
+                <PlaylistComponent key={playlist.id} playlist={playlist} />
+              ))}
+            </div>
+          )}
+        </DndProvider>
       </div>
     </div>
   );
@@ -109,7 +117,7 @@ const PlaylistComponent: VFC<PlaylistComponentProps> = (props) => {
         ) : (
           <div className={playlistTracksContainer}>
             {playlistTracks?.map((track) => (
-              <TrackComponent key={track.id} track={track} />
+              <TrackComponent key={track.id} track={track} dragType="playlist-track" />
             ))}
           </div>
         )
@@ -118,12 +126,48 @@ const PlaylistComponent: VFC<PlaylistComponentProps> = (props) => {
   );
 };
 
-type TrackComponentProps = { track: Track };
+type DragType = "saved-track" | "playlist-track";
+
+type TrackComponentProps = { track: Track; dragType: DragType };
 
 const TrackComponent: VFC<TrackComponentProps> = (props) => {
+  const [dragCollected, dragRef] = useDrag({
+    type: props.dragType,
+    item: () => props.track,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const acceptDragType = props.dragType === "playlist-track" ? "saved-track" : "playlist-track";
+
+  const [dropTopCollected, dropTopRef] = useDrop({
+    accept: acceptDragType,
+    drop: (dropped) => console.log("drop top!", dropped),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
+  const [dropBottomCollected, dropBottomRef] = useDrop({
+    accept: acceptDragType,
+    drop: (dropped) => console.log("drop bottom!", dropped),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
   return (
-    <div className={savedTrackItem}>
+    <div
+      className={`${trackItem} ${dropTopCollected.isOver && trackItemOverTop} ${
+        dropBottomCollected.isOver && trackItemOverBottom
+      }`}
+      ref={dragRef}
+      style={{ opacity: dragCollected.isDragging ? 0.5 : 1 }}
+    >
+      <div className={trackDropTopArea} ref={dropTopRef} />
       {props.track.name} by {props.track.artistName}
+      <div className={trackDropBottomArea} ref={dropBottomRef} />
     </div>
   );
 };
