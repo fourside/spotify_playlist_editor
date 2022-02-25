@@ -17,3 +17,9 @@ export const NormalTitle = style({
   fontWeight: "bold",
   lineHeight: "130%",
 });
+
+export const SmallTitle = style({
+  fontSize: "16px",
+  fontWeight: "bold",
+  lineHeight: "130%",
+});

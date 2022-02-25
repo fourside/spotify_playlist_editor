@@ -1,6 +1,7 @@
 import { VFC } from "react";
+import { msToTime } from "../../lib/date-format";
 import { Track } from "../../model";
-import { NormalTitle } from "../../styles/fonts.css";
+import { NormalText, SmallTitle } from "../../styles/fonts.css";
 import { PopularityBar } from "../popularity-bar/popularity-bar";
 import { body, bodyLeft, bodyRight, container, header, label } from "./track-detail.css";
 
@@ -11,11 +12,14 @@ type Props = {
 export const TrackDetailComponent: VFC<Props> = (props) => {
   return (
     <div className={container}>
-      <div className={`${NormalTitle} ${header}`}>{props.track.name}</div>
+      <div className={header}>{props.track.name}</div>
       <div className={body}>
         <div className={bodyLeft}>
-          <div>{props.track.artistName}</div>
-          <div>duration: {props.track.durationMs}</div>
+          <div className={SmallTitle}>{props.track.artistName}</div>
+          <div>
+            <div className={label}>duration</div>
+            <div className={NormalText}>{msToTime(props.track.durationMs)}</div>
+          </div>
           <div>
             <div className={label}>popularity</div>
             <PopularityBar popularity={props.track.popularity} />

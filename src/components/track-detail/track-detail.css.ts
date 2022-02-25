@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { Colors } from "../../styles/colors.css";
-import { NormalText } from "../../styles/fonts.css";
+import { NormalText, NormalTitle } from "../../styles/fonts.css";
 
 export const container = style({
   width: "500px",
@@ -9,9 +9,12 @@ export const container = style({
   color: Colors.black800,
 });
 
-export const header = style({
-  padding: "32px 32px 16px 32px",
-});
+export const header = style([
+  {
+    padding: "32px 32px 16px 32px",
+  },
+  NormalTitle,
+]);
 
 export const body = style({
   padding: "8px 32px 32px 32px",
