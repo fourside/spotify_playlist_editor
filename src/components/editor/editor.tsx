@@ -12,18 +12,30 @@ import {
   playlistTracksContainer,
   playListHeader,
 } from "./editor.css";
-import { Playlist } from "../../model";
+import { Playlist, Track } from "../../model";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TrackComponent } from "../track/track";
+import { TrackDetailComponent } from "../track-detail/track-detail";
+import { Modal } from "../modal/modal";
 
 export const Editor: VFC = () => {
   const { loading: savedTracksLoading, savedTracks, error: savedTracksError } = useSavedTracks();
   const { loading: myPlaylistsLoading, myPlaylists, error: myPlaylistsError } = useMyPlaylists();
 
+  const [trackDetail, setTrackDetail] = useState<Track>();
+
   const handleSignOutClick = useCallback(async () => {
     await signOut();
     window.location.href = "/";
+  }, []);
+
+  const handleTrackInfoClick = useCallback((track: Track) => {
+    setTrackDetail(track);
+  }, []);
+
+  const handleTrackDetailModalClose = useCallback(() => {
+    setTrackDetail(undefined);
   }, []);
 
   if (savedTracksError !== undefined) {
@@ -67,7 +79,12 @@ export const Editor: VFC = () => {
           ) : (
             <div className={tracksContainer}>
               {savedTracks?.map((track) => (
-                <TrackComponent key={track.id} track={track} dragType="saved-track" />
+                <TrackComponent
+                  key={track.id}
+                  track={track}
+                  dragType="saved-track"
+                  onClickInformation={handleTrackInfoClick}
+                />
               ))}
             </div>
           )}
@@ -76,18 +93,24 @@ export const Editor: VFC = () => {
           ) : (
             <div className={playlistContainer}>
               {myPlaylists?.map((playlist) => (
-                <PlaylistComponent key={playlist.id} playlist={playlist} />
+                <PlaylistComponent key={playlist.id} playlist={playlist} onClickInformation={handleTrackInfoClick} />
               ))}
             </div>
           )}
         </DndProvider>
       </div>
+      {trackDetail !== undefined && (
+        <Modal onOutsideClick={handleTrackDetailModalClose}>
+          <TrackDetailComponent track={trackDetail} />
+        </Modal>
+      )}
     </div>
   );
 };
 
 type PlaylistComponentProps = {
   playlist: Playlist;
+  onClickInformation: (track: Track) => void;
 };
 
 const PlaylistComponent: VFC<PlaylistComponentProps> = (props) => {
@@ -113,7 +136,12 @@ const PlaylistComponent: VFC<PlaylistComponentProps> = (props) => {
         ) : (
           <div className={playlistTracksContainer}>
             {playlistTracks?.map((track) => (
-              <TrackComponent key={track.id} track={track} dragType="playlist-track" />
+              <TrackComponent
+                key={track.id}
+                track={track}
+                dragType="playlist-track"
+                onClickInformation={props.onClickInformation}
+              />
             ))}
           </div>
         )

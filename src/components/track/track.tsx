@@ -1,7 +1,7 @@
-import { VFC } from "react";
+import { useCallback, VFC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Track } from "../../model";
-import { Colors } from "../../styles/colors.css";
+import { FontColors } from "../../styles/colors.css";
 import { NormalText, SmallText } from "../../styles/fonts.css";
 import { InfoIcon } from "../icons";
 import {
@@ -21,9 +21,15 @@ import {
 
 type DragType = "saved-track" | "playlist-track";
 
-type TrackComponentProps = { track: Track; dragType: DragType };
+type TrackComponentProps = {
+  track: Track;
+  dragType: DragType;
+  onClickInformation: (track: Track) => void;
+};
 
 export const TrackComponent: VFC<TrackComponentProps> = (props) => {
+  const { onClickInformation } = props;
+
   const [dragCollected, dragRef] = useDrag({
     type: props.dragType,
     item: () => props.track,
@@ -50,6 +56,10 @@ export const TrackComponent: VFC<TrackComponentProps> = (props) => {
     }),
   });
 
+  const handleInfoClick = useCallback(() => {
+    onClickInformation(props.track);
+  }, [onClickInformation, props.track]);
+
   return (
     <div
       className={`${container}
@@ -64,9 +74,9 @@ export const TrackComponent: VFC<TrackComponentProps> = (props) => {
         </div>
         <div className={trackName}>
           <div className={NormalText}>{props.track.name}</div>
-          <div className={`${SmallText} ${Colors.black500}`}>{props.track.artistName}</div>
+          <div className={`${SmallText} ${FontColors.black500}`}>{props.track.artistName}</div>
         </div>
-        <div className={information}>
+        <div className={information} onClick={handleInfoClick}>
           <InfoIcon className={informationIcon} />
         </div>
       </div>

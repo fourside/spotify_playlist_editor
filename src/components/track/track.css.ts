@@ -78,4 +78,6 @@ export const information = style({
 export const informationIcon = style({
   width: "20px",
   height: "20px",
+  cursor: "pointer",
+  zIndex: 1,
 });
