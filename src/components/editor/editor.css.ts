@@ -5,14 +5,6 @@ export const pageContainer = style({
   overflow: "hidden",
 });
 
-export const header = style({
-  display: "flex",
-  alignItems: "center",
-  height: "80px",
-  margin: 0,
-  paddingLeft: "16px",
-});
-
 export const editorContainer = style({
   display: "grid",
   grid: "auto / 50% 50%",

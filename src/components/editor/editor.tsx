@@ -1,10 +1,8 @@
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useCallback, useState, VFC } from "react";
 import { useMyPlaylists, useSavedTracks, usePlaylistTracks } from "./editor-hooks";
 import {
   pageContainer,
-  header,
   tracksContainer,
   editorContainer,
   playListContainer,
@@ -18,17 +16,14 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { TrackComponent } from "../track/track";
 import { TrackDetailComponent } from "../track-detail/track-detail";
 import { Modal } from "../modal/modal";
+import { HeaderComponent } from "../header/header";
+import { useSession } from "next-auth/react";
 
 export const Editor: VFC = () => {
+  const { data: session } = useSession();
   const { loading: savedTracksLoading, savedTracks, error: savedTracksError } = useSavedTracks();
   const { loading: myPlaylistsLoading, myPlaylists, error: myPlaylistsError } = useMyPlaylists();
-
   const [trackDetail, setTrackDetail] = useState<Track>();
-
-  const handleSignOutClick = useCallback(async () => {
-    await signOut();
-    window.location.href = "/";
-  }, []);
 
   const handleTrackInfoClick = useCallback((track: Track) => {
     setTrackDetail(track);
@@ -70,8 +65,7 @@ export const Editor: VFC = () => {
 
   return (
     <div className={pageContainer}>
-      <h1 className={header}>Editor</h1>
-      <button onClick={handleSignOutClick}>SignOut</button>
+      <HeaderComponent userName={session?.user?.name ?? ""} />
       <div className={editorContainer}>
         <DndProvider backend={HTML5Backend}>
           {savedTracksLoading ? (
