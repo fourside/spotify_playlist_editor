@@ -1,16 +1,8 @@
 import Link from "next/link";
 import { useCallback, useState, VFC } from "react";
-import { useMyPlaylists, useSavedTracks, usePlaylistTracks } from "./editor-hooks";
-import {
-  pageContainer,
-  tracksContainer,
-  editorContainer,
-  playListContainer,
-  playlistContainer,
-  playlistTracksContainer,
-  playListHeader,
-} from "./editor.css";
-import { Playlist, Track } from "../../model";
+import { useMyPlaylists, useSavedTracks } from "./editor-hooks";
+import { pageContainer, tracksContainer, editorContainer, playlistContainer } from "./editor.css";
+import { Track } from "../../model";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TrackComponent } from "../track/track";
@@ -18,6 +10,7 @@ import { TrackDetailComponent } from "../track-detail/track-detail";
 import { Modal } from "../modal/modal";
 import { HeaderComponent } from "../header/header";
 import { useSession } from "next-auth/react";
+import { PlaylistComponent } from "../playlist/playlist";
 
 export const Editor: VFC = () => {
   const { data: session } = useSession();
@@ -98,48 +91,6 @@ export const Editor: VFC = () => {
           <TrackDetailComponent track={trackDetail} />
         </Modal>
       )}
-    </div>
-  );
-};
-
-type PlaylistComponentProps = {
-  playlist: Playlist;
-  onClickInformation: (track: Track) => void;
-};
-
-const PlaylistComponent: VFC<PlaylistComponentProps> = (props) => {
-  const { playlistTracks, error, loading } = usePlaylistTracks(props.playlist.id);
-  const [open, setOpen] = useState(false);
-
-  const handleOpenClick = useCallback(() => {
-    setOpen((prev) => !prev);
-  }, []);
-
-  return (
-    <div className={playListContainer}>
-      <div className={playListHeader} onClick={handleOpenClick}>
-        {props.playlist.name}
-      </div>
-      {open ? (
-        loading ? (
-          <>loading...</>
-        ) : error !== undefined ? (
-          <div>error: {error.message}</div>
-        ) : playlistTracks?.length === 0 ? (
-          <div>no tracks</div>
-        ) : (
-          <div className={playlistTracksContainer}>
-            {playlistTracks?.map((track) => (
-              <TrackComponent
-                key={track.id}
-                track={track}
-                dragType="playlist-track"
-                onClickInformation={props.onClickInformation}
-              />
-            ))}
-          </div>
-        )
-      ) : null}
     </div>
   );
 };
