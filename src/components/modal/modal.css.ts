@@ -12,3 +12,14 @@ export const backdrop = style({
   zIndex: 1,
   backgroundColor: "#00000080",
 });
+
+export const content = style({
+  position: "relative",
+});
+
+export const closeIcon = style({
+  position: "absolute",
+  right: 0,
+  padding: "8px",
+  cursor: "pointer",
+});
