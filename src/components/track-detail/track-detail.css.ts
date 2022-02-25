@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { Colors } from "../../styles/colors.css";
+import { NormalText } from "../../styles/fonts.css";
 
 export const container = style({
   width: "500px",
@@ -26,3 +27,10 @@ export const bodyLeft = style({
 });
 
 export const bodyRight = style({});
+
+export const label = style([
+  {
+    padding: "8px 0",
+  },
+  NormalText,
+]);
