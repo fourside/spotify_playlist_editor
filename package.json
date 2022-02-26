@@ -12,6 +12,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "0.1.6",
     "next": "12.1.0",
     "next-auth": "^4.2.1",
     "react": "17.0.2",
