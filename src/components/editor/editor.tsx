@@ -11,6 +11,7 @@ import { Modal } from "../modal/modal";
 import { HeaderComponent } from "../header/header";
 import { useSession } from "next-auth/react";
 import { PlaylistComponent } from "../playlist/playlist";
+import { Loader } from "../loader/loader";
 
 export const Editor: VFC = () => {
   const { data: session } = useSession();
@@ -62,7 +63,9 @@ export const Editor: VFC = () => {
       <div className={editorContainer}>
         <DndProvider backend={HTML5Backend}>
           {savedTracksLoading ? (
-            <div>loading...</div>
+            <div>
+              <Loader />
+            </div>
           ) : (
             <div className={tracksContainer}>
               {savedTracks?.map((track) => (
@@ -76,7 +79,9 @@ export const Editor: VFC = () => {
             </div>
           )}
           {myPlaylistsLoading ? (
-            <div>loading...</div>
+            <div>
+              <Loader />
+            </div>
           ) : (
             <div className={playlistContainer}>
               {myPlaylists?.map((playlist) => (

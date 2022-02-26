@@ -20,3 +20,9 @@ export const tracksContainer = style({
   overflowY: "scroll",
   maxHeight: "30vh",
 });
+
+export const loaderContainer = style({
+  display: "flex",
+  justifyContent: "center",
+  padding: "8px",
+});

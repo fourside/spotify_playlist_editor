@@ -32,6 +32,23 @@ Normal.decorators = [
   ),
 ];
 
+export const Loading = Template.bind({});
+Loading.args = {
+  playlist: {
+    id: "normal-playlist",
+    name: "Normal Playlist",
+  },
+};
+Loading.decorators = [
+  (Story) => (
+    <SWRConfig value={{ use: [getSWRMiddleware("loading")] }}>
+      <DndProvider backend={HTML5Backend}>
+        <Story />
+      </DndProvider>
+    </SWRConfig>
+  ),
+];
+
 type MiddlewareType = "normal" | "zero" | "error" | "loading";
 
 function getSWRMiddleware(type: MiddlewareType): Middleware {

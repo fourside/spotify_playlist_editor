@@ -2,9 +2,10 @@ import { VFC } from "react";
 import { Playlist, Track } from "../../model";
 import { Accordion } from "../accordion/accordion";
 import { PlaylistIcon } from "../icons";
+import { Loader } from "../loader/loader";
 import { TrackComponent } from "../track/track";
 import { usePlaylistTracks } from "./playlist-hooks";
-import { header, headerTitle, tracksContainer } from "./playlist.css";
+import { header, headerTitle, loaderContainer, tracksContainer } from "./playlist.css";
 
 type Props = {
   playlist: Playlist;
@@ -17,7 +18,9 @@ export const PlaylistComponent: VFC<Props> = (props) => {
   return (
     <Accordion header={<Header title={props.playlist.name} />} title={props.playlist.name}>
       {loading ? (
-        <div>loading...</div>
+        <div className={loaderContainer}>
+          <Loader />
+        </div>
       ) : error !== undefined ? (
         <div>error: {error.message}</div>
       ) : playlistTracks?.length === 0 ? (
