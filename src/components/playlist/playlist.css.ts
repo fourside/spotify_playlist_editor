@@ -1,16 +1,19 @@
 import { style } from "@vanilla-extract/css";
-
-export const container = style({
-  padding: "8px",
-  borderRadius: "4px",
-  border: "1px solid #ccc",
-  fontSize: "14px",
-  color: "#333",
-});
+import { SmallText } from "../../styles/fonts.css";
 
 export const header = style({
-  cursor: "pointer",
+  display: "grid",
+  grid: "auto / auto 1fr",
+  alignItems: "center",
+  gap: "8px",
 });
+
+export const headerTitle = style([
+  {
+    fontFamily: "inherit",
+  },
+  SmallText,
+]);
 
 export const tracksContainer = style({
   padding: "16px",

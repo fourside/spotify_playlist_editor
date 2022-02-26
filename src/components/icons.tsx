@@ -81,3 +81,43 @@ export const UserIcon: VFC<IconProps> = (props) => (
     <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
   </svg>
 );
+
+export const ChevronDownIcon: VFC<IconProps> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={props.className}
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="#9e9e9e"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+export const PlaylistIcon: VFC<IconProps> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={props.className}
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="#9e9e9e"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <circle cx="14" cy="17" r="3" />
+    <path d="M17 17v-13h4" />
+    <path d="M13 5h-10" />
+    <line x1="3" y1="9" x2="13" y2="9" />
+    <path d="M9 13h-6" />
+  </svg>
+);
