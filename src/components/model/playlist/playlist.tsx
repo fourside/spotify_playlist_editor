@@ -6,6 +6,7 @@ import { Loader } from "../../ui/loader/loader";
 import { TrackComponent } from "../track/track";
 import { usePlaylistTracks } from "./playlist-hooks";
 import { header, headerTitle, loaderContainer, tracksContainer } from "./playlist.css";
+import { EmptyTrackComponent } from "../empty-track/empty-track";
 
 type Props = {
   playlist: Playlist;
@@ -17,26 +18,26 @@ export const PlaylistComponent: VFC<Props> = (props) => {
 
   return (
     <Accordion header={<Header title={props.playlist.name} />} title={props.playlist.name}>
-      {loading ? (
-        <div className={loaderContainer}>
-          <Loader />
-        </div>
-      ) : error !== undefined ? (
-        <div>error: {error.message}</div>
-      ) : playlistTracks?.length === 0 ? (
-        <div>no tracks</div>
-      ) : (
-        <div className={tracksContainer}>
-          {playlistTracks?.map((track) => (
+      <div className={tracksContainer}>
+        {loading ? (
+          <div className={loaderContainer}>
+            <Loader />
+          </div>
+        ) : error !== undefined ? (
+          <div>error: {error.message}</div>
+        ) : playlistTracks?.length === 0 ? (
+          <EmptyTrackComponent dragType="playlist-track" />
+        ) : (
+          playlistTracks?.map((track) => (
             <TrackComponent
               key={track.id}
               track={track}
               dragType="playlist-track"
               onClickInformation={props.onClickInformation}
             />
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </Accordion>
   );
 };

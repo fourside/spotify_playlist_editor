@@ -19,7 +19,7 @@ import {
   informationIcon,
 } from "./track.css";
 
-type DragType = "saved-track" | "playlist-track";
+export type DragType = "saved-track" | "playlist-track";
 
 type TrackComponentProps = {
   track: Track;

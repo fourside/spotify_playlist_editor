@@ -6,7 +6,7 @@ import { Track } from "../../../model";
 import { PlaylistComponent } from "./playlist";
 
 const componentMeta: ComponentMeta<typeof PlaylistComponent> = {
-  title: "Playlist",
+  title: "model/Playlist",
   component: PlaylistComponent,
   argTypes: {},
 };
@@ -35,13 +35,47 @@ Normal.decorators = [
 export const Loading = Template.bind({});
 Loading.args = {
   playlist: {
-    id: "normal-playlist",
-    name: "Normal Playlist",
+    id: "loading-playlist",
+    name: "Loading Playlist",
   },
 };
 Loading.decorators = [
   (Story) => (
     <SWRConfig value={{ use: [getSWRMiddleware("loading")] }}>
+      <DndProvider backend={HTML5Backend}>
+        <Story />
+      </DndProvider>
+    </SWRConfig>
+  ),
+];
+
+export const Zero = Template.bind({});
+Zero.args = {
+  playlist: {
+    id: "zero-playlist",
+    name: "Zero Playlist",
+  },
+};
+Zero.decorators = [
+  (Story) => (
+    <SWRConfig value={{ use: [getSWRMiddleware("zero")] }}>
+      <DndProvider backend={HTML5Backend}>
+        <Story />
+      </DndProvider>
+    </SWRConfig>
+  ),
+];
+
+export const Failure = Template.bind({});
+Failure.args = {
+  playlist: {
+    id: "failure-playlist",
+    name: "Failure Playlist",
+  },
+};
+Failure.decorators = [
+  (Story) => (
+    <SWRConfig value={{ use: [getSWRMiddleware("error")] }}>
       <DndProvider backend={HTML5Backend}>
         <Story />
       </DndProvider>
