@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { PopularityBar } from "./popularity-bar";
 
 const componentMeta: ComponentMeta<typeof PopularityBar> = {
-  title: "PopularityBar",
+  title: "model/PopularityBar",
   component: PopularityBar,
   decorators: [
     (Story) => (

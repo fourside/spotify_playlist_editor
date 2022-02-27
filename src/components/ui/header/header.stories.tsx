@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { HeaderComponent } from "./header";
 
 const componentMeta: ComponentMeta<typeof HeaderComponent> = {
-  title: "Header",
+  title: "ui/Header",
   component: HeaderComponent,
   argTypes: {},
   decorators: [

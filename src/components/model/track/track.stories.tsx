@@ -4,7 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { TrackComponent } from "./track";
 
 const componentMeta: ComponentMeta<typeof TrackComponent> = {
-  title: "Track",
+  title: "model/Track",
   component: TrackComponent,
   argTypes: {
     track: {

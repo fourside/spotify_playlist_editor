@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Modal } from "./modal";
 
 const componentMeta: ComponentMeta<typeof Modal> = {
-  title: Modal.name,
+  title: "ui/Modal",
   component: Modal,
   argTypes: {},
 };

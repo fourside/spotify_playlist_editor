@@ -6,7 +6,7 @@ import { Track } from "../../../model";
 import { SavedTracksComponent } from "./saved-tracks";
 
 const componentMeta: ComponentMeta<typeof SavedTracksComponent> = {
-  title: "SavedTracks",
+  title: "model/SavedTracks",
   component: SavedTracksComponent,
   argTypes: {},
 };

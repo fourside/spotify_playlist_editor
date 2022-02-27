@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { ScrollArea } from "./scroll-area";
 
 const componentMeta: ComponentMeta<typeof ScrollArea> = {
-  title: ScrollArea.name,
+  title: "ui/ScrollArea",
   component: ScrollArea,
   argTypes: {},
   decorators: [
