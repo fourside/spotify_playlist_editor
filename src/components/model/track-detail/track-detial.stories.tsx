@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { TrackDetailComponent } from "./track-detail";
 
 const componentMeta: ComponentMeta<typeof TrackDetailComponent> = {
-  title: "TrackDetail",
+  title: "model/TrackDetail",
   component: TrackDetailComponent,
   argTypes: {
     track: {
