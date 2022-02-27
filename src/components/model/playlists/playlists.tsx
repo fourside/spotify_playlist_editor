@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { VFC } from "react";
+import { useCallback, VFC } from "react";
 import { Track } from "../../../model";
+import { PlusIcon } from "../../icons";
+import { Button } from "../../ui/button/button";
 import { Loader } from "../../ui/loader/loader";
 import { PlaylistComponent } from "../playlist/playlist";
 import { useMyPlaylists } from "./playlists-hooks";
-import { container } from "./playlists.css";
+import { container, createButton, playlistsContainer } from "./playlists.css";
 
 type Props = {
   onTrackInfoClick: (track: Track) => void;
@@ -12,6 +14,9 @@ type Props = {
 
 export const PlaylistsComponent: VFC<Props> = (props) => {
   const { loading, myPlaylists, error } = useMyPlaylists();
+
+  // TODO
+  const handleCreatePlaylistClick = useCallback(() => {}, []);
 
   if (loading) {
     return (
@@ -38,9 +43,15 @@ export const PlaylistsComponent: VFC<Props> = (props) => {
 
   return (
     <div className={container}>
-      {myPlaylists?.map((playlist) => (
-        <PlaylistComponent key={playlist.id} playlist={playlist} onClickInformation={props.onTrackInfoClick} />
-      ))}
+      <div className={playlistsContainer}>
+        {myPlaylists?.map((playlist) => (
+          <PlaylistComponent key={playlist.id} playlist={playlist} onClickInformation={props.onTrackInfoClick} />
+        ))}
+      </div>
+      <Button type="tertiary" onClick={handleCreatePlaylistClick} className={createButton}>
+        <PlusIcon />
+        Create new playlist
+      </Button>
     </div>
   );
 };
