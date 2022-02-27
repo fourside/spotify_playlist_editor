@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "check": "tsc --noEmit && npm run lint",
+    "check": "tsc --noEmit && npm run lint && npm run test",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
