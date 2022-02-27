@@ -6,7 +6,7 @@ import { Button } from "../../ui/button/button";
 import { Loader } from "../../ui/loader/loader";
 import { PlaylistComponent } from "../playlist/playlist";
 import { useMyPlaylists } from "./playlists-hooks";
-import { container, createButton, playlistsContainer } from "./playlists.css";
+import { container, createButton, playlistsContainer, title } from "./playlists.css";
 
 type Props = {
   onTrackInfoClick: (track: Track) => void;
@@ -43,6 +43,7 @@ export const PlaylistsComponent: VFC<Props> = (props) => {
 
   return (
     <div className={container}>
+      <div className={title}>Playlists</div>
       <div className={playlistsContainer}>
         {myPlaylists?.map((playlist) => (
           <PlaylistComponent key={playlist.id} playlist={playlist} onClickInformation={props.onTrackInfoClick} />

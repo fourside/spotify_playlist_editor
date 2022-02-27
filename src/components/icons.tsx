@@ -159,3 +159,21 @@ export const PlusIcon: VFC<IconProps> = (props) => (
     <line x1="5" y1="12" x2="19" y2="12" />
   </svg>
 );
+
+export const HeartIcon: VFC<IconProps> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={props.className}
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="#9e9e9e"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+  </svg>
+);
