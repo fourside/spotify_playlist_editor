@@ -1,4 +1,4 @@
-import { style, styleVariants } from "@vanilla-extract/css";
+import { style } from "@vanilla-extract/css";
 import { Colors } from "../../../styles/colors.css";
 
 const base = style([
@@ -15,35 +15,35 @@ const base = style([
   },
 ]);
 
-export const buttons = styleVariants({
-  primary: [
-    base,
-    {
-      backgroundColor: Colors.blue800,
-      color: Colors.white,
-      ":hover": {
-        backgroundColor: Colors.blue600,
-      },
+export const primary = style([
+  base,
+  {
+    backgroundColor: Colors.blue800,
+    color: Colors.white,
+    ":hover": {
+      backgroundColor: Colors.blue600,
     },
-  ],
-  tertiary: [
-    base,
-    {
-      backgroundColor: Colors.white,
-      color: Colors.black300,
-      ":hover": {
-        backgroundColor: Colors.black20,
-      },
+  },
+]);
+
+export const tertiary = style([
+  base,
+  {
+    backgroundColor: Colors.white,
+    color: Colors.black300,
+    ":hover": {
+      backgroundColor: Colors.black20,
     },
-  ],
-  danger: [
-    base,
-    {
-      backgroundColor: Colors.red600,
-      color: Colors.white,
-      ":hover": {
-        backgroundColor: Colors.red300,
-      },
+  },
+]);
+
+export const danger = style([
+  base,
+  {
+    backgroundColor: Colors.red600,
+    color: Colors.white,
+    ":hover": {
+      backgroundColor: Colors.red300,
     },
-  ],
-});
+  },
+]);
