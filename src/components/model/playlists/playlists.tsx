@@ -49,7 +49,7 @@ export const PlaylistsComponent: VFC<Props> = (props) => {
           <PlaylistComponent key={playlist.id} playlist={playlist} onClickInformation={props.onTrackInfoClick} />
         ))}
       </div>
-      <Button type="tertiary" onClick={handleCreatePlaylistClick} className={createButton}>
+      <Button buttonType="tertiary" onClick={handleCreatePlaylistClick} className={createButton}>
         <PlusIcon />
         Create new playlist
       </Button>

@@ -8,7 +8,7 @@ describe("button", () => {
     const onClick = jest.fn();
     // act
     render(
-      <Button type="primary" onClick={onClick}>
+      <Button buttonType="primary" onClick={onClick}>
         button
       </Button>
     );
@@ -22,7 +22,7 @@ describe("button", () => {
     const onClick = jest.fn();
     // act
     render(
-      <Button type="primary" onClick={onClick} disabled={true}>
+      <Button buttonType="primary" onClick={onClick} disabled={true}>
         button
       </Button>
     );

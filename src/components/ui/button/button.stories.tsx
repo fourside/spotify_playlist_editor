@@ -13,18 +13,18 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  type: "primary",
+  buttonType: "primary",
   children: "primary",
 };
 
 export const Tertiary = Template.bind({});
 Tertiary.args = {
-  type: "tertiary",
+  buttonType: "tertiary",
   children: <span>tertiary</span>,
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type: "danger",
+  buttonType: "danger",
   children: <span>danger</span>,
 };
