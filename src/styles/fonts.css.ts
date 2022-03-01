@@ -1,5 +1,11 @@
 import { style } from "@vanilla-extract/css";
 
+export const BoldText = style({
+  fontSize: "14px",
+  fontWeight: "bold",
+  lineHeight: "130%",
+});
+
 export const NormalText = style({
   fontSize: "14px",
   fontWeight: "normal",

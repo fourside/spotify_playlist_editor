@@ -12,6 +12,9 @@ const base = style([
     lineHeight: "130%",
     display: "flex",
     alignItems: "center",
+    ":disabled": {
+      opacity: 0.6,
+    },
   },
 ]);
 
