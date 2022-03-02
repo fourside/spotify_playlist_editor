@@ -26,6 +26,9 @@ export const primary = style([
     ":hover": {
       backgroundColor: Colors.blue600,
     },
+    ":focus": {
+      boxShadow: "0 0 0 .1rem rgb(33,115,215,.5)", // blue800
+    },
   },
 ]);
 
@@ -37,6 +40,9 @@ export const tertiary = style([
     ":hover": {
       backgroundColor: Colors.black20,
     },
+    ":focus": {
+      boxShadow: "0 0 0 .1rem rgb(97,98,99,.5)", // black300
+    },
   },
 ]);
 
@@ -47,6 +53,9 @@ export const danger = style([
     color: Colors.white,
     ":hover": {
       backgroundColor: Colors.red300,
+    },
+    ":focus": {
+      boxShadow: "0 0 0 .1rem rgb(208,11,11,.5)", // red600
     },
   },
 ]);
