@@ -1,27 +1,39 @@
-import { FC, useRef } from "react";
-import { useOutsideClick } from "../../../hooks/use-outside-click";
+import { FC, useEffect } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { CloseIcon } from "../../icons";
-import { Portal } from "../../portal";
 import { backdrop, closeIcon, content } from "./modal.css";
 
 type Props = {
-  onOutsideClick: () => void;
+  open: boolean;
+  onClose: () => void;
 };
 
 export const Modal: FC<Props> = (props) => {
-  const contentRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(contentRef, props.onOutsideClick);
+  const { onClose } = props;
+
+  useEffect(() => {
+    const handleKeyDownCapture = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDownCapture, true);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDownCapture, true);
+    };
+  }, [onClose]);
 
   return (
-    <Portal>
-      <div className={backdrop}>
-        <div ref={contentRef} className={content}>
-          <div className={closeIcon} onClick={props.onOutsideClick}>
+    <Dialog.Root open={props.open}>
+      <Dialog.Portal>
+        <Dialog.Overlay className={backdrop} onClick={props.onClose} />
+        <Dialog.Content className={content}>
+          <Dialog.Close className={closeIcon} onClick={props.onClose}>
             <CloseIcon />
-          </div>
+          </Dialog.Close>
           {props.children}
-        </div>
-      </div>
-    </Portal>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 };

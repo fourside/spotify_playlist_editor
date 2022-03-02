@@ -13,6 +13,7 @@ const Template: ComponentStory<typeof Modal> = (args) => <Modal {...args} />;
 
 export const Normal = Template.bind({});
 Normal.args = {
+  open: true,
   children: (
     <div
       style={{
