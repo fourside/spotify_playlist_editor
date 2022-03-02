@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { createPlaylist, getMyPlaylists } from "../../../lib/client";
 import { Playlist } from "../../../model";
 
@@ -9,14 +9,15 @@ export function useMyPlaylists(): {
   error: Error | undefined;
   onCreatePlaylist: (name: string) => Promise<void>;
 } {
-  const { data, error, mutate } = useSWR("my-playlists", getMyPlaylists);
+  const { mutate } = useSWRConfig();
+  const { data, error } = useSWR("my-playlists", getMyPlaylists);
 
   const onCreatePlaylist = useCallback(
     async (name: string) => {
-      const newPlaylist = await createPlaylist(name);
-      mutate({ playlists: [...(data?.playlists ?? []), newPlaylist] }, false);
+      await createPlaylist(name);
+      mutate("my-playlists");
     },
-    [data?.playlists, mutate]
+    [mutate]
   );
 
   return {
