@@ -19,10 +19,17 @@ export const title = style([
   SmallTitle,
 ]);
 
+export const footer = style({
+  margin: "8px 0",
+});
+
 export const createButton = style({
-  margin: "4px 0",
   display: "grid",
   grid: "auto / auto 1fr",
   alignItems: "center",
   gap: "8px",
+});
+
+export const modalContainer = style({
+  width: "400px",
 });

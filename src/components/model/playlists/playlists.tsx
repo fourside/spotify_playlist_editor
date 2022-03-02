@@ -1,12 +1,14 @@
 import Link from "next/link";
-import { useCallback, VFC } from "react";
+import { useCallback, useState, VFC } from "react";
 import { Track } from "../../../model";
 import { PlusIcon } from "../../icons";
 import { Button } from "../../ui/button/button";
 import { Loader } from "../../ui/loader/loader";
+import { Modal } from "../../ui/modal/modal";
+import { PlaylistForm } from "../playlist-form/playlist-form";
 import { PlaylistComponent } from "../playlist/playlist";
 import { useMyPlaylists } from "./playlists-hooks";
-import { container, createButton, playlistsContainer, title } from "./playlists.css";
+import { container, createButton, footer, modalContainer, playlistsContainer, title } from "./playlists.css";
 
 type Props = {
   onTrackInfoClick: (track: Track) => void;
@@ -15,8 +17,25 @@ type Props = {
 export const PlaylistsComponent: VFC<Props> = (props) => {
   const { loading, myPlaylists, error } = useMyPlaylists();
 
-  // TODO
-  const handleCreatePlaylistClick = useCallback(() => {}, []);
+  const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  const handleCreatePlaylistClick = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleCreatePlaylistSubmit = useCallback(async (playlistName: string) => {
+    console.log(playlistName);
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      setOpen(false);
+    }, 2000);
+  }, []);
 
   if (loading) {
     return (
@@ -49,10 +68,19 @@ export const PlaylistsComponent: VFC<Props> = (props) => {
           <PlaylistComponent key={playlist.id} playlist={playlist} onClickInformation={props.onTrackInfoClick} />
         ))}
       </div>
-      <Button buttonType="tertiary" onClick={handleCreatePlaylistClick} className={createButton}>
-        <PlusIcon />
-        Create new playlist
-      </Button>
+      <div className={footer}>
+        <Button buttonType="tertiary" onClick={handleCreatePlaylistClick} className={createButton}>
+          <PlusIcon />
+          Create new playlist
+        </Button>
+      </div>
+      {open && (
+        <Modal open onClose={handleClose}>
+          <div className={modalContainer}>
+            <PlaylistForm onSubmit={handleCreatePlaylistSubmit} submitting={submitting} />
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
