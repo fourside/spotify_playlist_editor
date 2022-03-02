@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, VFC } from "react";
+import { FormEvent, useCallback, useEffect, useState, VFC } from "react";
 import { Button } from "../../ui/button/button";
 import { Input } from "../../ui/input/input";
 import { container, label, submitError, validationError } from "./playlist-form.css";
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const PlaylistForm: VFC<Props> = (props) => {
-  const { onSubmit: onAsyncSubmit } = props;
+  const { onSubmit } = props;
   const [name, setName] = useState<string>();
   const [pristine, setPristine] = useState<boolean>(true);
   const [valid, setValid] = useState(false);
@@ -25,19 +25,31 @@ export const PlaylistForm: VFC<Props> = (props) => {
     setPristine(false);
   }, []);
 
-  const handleSubmit = useCallback(async () => {
-    if (name === undefined) {
+  const submit = useCallback(() => {
+    if (props.submitting || name === undefined || !valid) {
       return;
     }
     try {
-      onAsyncSubmit(name);
+      onSubmit(name);
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {
         setSubmitErrorMessage(error.message);
       }
     }
-  }, [name, onAsyncSubmit]);
+  }, [name, onSubmit, props.submitting, valid]);
+
+  const handleSubmit = useCallback(
+    async (event: FormEvent) => {
+      event.preventDefault();
+      submit();
+    },
+    [submit]
+  );
+
+  const handleButtonClick = useCallback(() => {
+    submit();
+  }, [submit]);
 
   useEffect(() => {
     if (name === undefined) {
@@ -64,7 +76,7 @@ export const PlaylistForm: VFC<Props> = (props) => {
       {!pristine && name === undefined && <div className={validationError}>Name is required</div>}
       {submitErrorMessage !== undefined && <div className={submitError}>{submitErrorMessage}</div>}
       <div>
-        <Button buttonType="primary" onClick={handleSubmit} disabled={!valid || props.submitting}>
+        <Button buttonType="primary" onClick={handleButtonClick} disabled={!valid || props.submitting}>
           {props.submitting ? "Submitting..." : "Submit"}
         </Button>
       </div>

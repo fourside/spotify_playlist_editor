@@ -6,6 +6,9 @@ export const container = style({
   padding: "32px",
   display: "grid",
   gap: "8px",
+  backgroundColor: Colors.white,
+  borderRadius: "12px",
+  width: "100%",
 });
 
 export const label = style([{}, BoldText]);

@@ -25,6 +25,17 @@ describe("PlaylistForm", () => {
       expect(onSubmit).not.toHaveBeenCalled();
     });
 
+    test("未入力なのでenterでsubmitできない", () => {
+      // arrange
+      const onSubmit = jest.fn();
+      const submitting = false;
+      render(<PlaylistForm onSubmit={onSubmit} submitting={submitting} />);
+      // act
+      userEvent.type(screen.getByRole("button"), "{enter}");
+      // assert
+      expect(onSubmit).not.toHaveBeenCalled();
+    });
+
     test("未入力だが、エラーメッセージが表示されていない", () => {
       // arrange
       const onSubmit = () => {};
@@ -70,19 +81,46 @@ describe("PlaylistForm", () => {
       // assert
       expect(onSubmit).not.toHaveBeenCalled();
     });
+
+    test("enterでsubmitできない", () => {
+      // arrange
+      const onSubmit = jest.fn();
+      const submitting = false;
+      render(<PlaylistForm onSubmit={onSubmit} submitting={submitting} />);
+      userEvent.type(screen.getByRole("textbox"), "t{backspace}");
+      // act
+      userEvent.type(screen.getByRole("textbox"), "{enter}");
+      // assert
+      expect(onSubmit).not.toHaveBeenCalled();
+    });
   });
 
-  test("入力すると、buttonが押せる", () => {
-    // arrange
-    const onSubmit = jest.fn();
-    const submitting = false;
-    render(<PlaylistForm onSubmit={onSubmit} submitting={submitting} />);
-    userEvent.type(screen.getByRole("textbox"), "t");
-    // act
-    userEvent.click(screen.getByRole("button"));
-    // assert
-    expect(onSubmit).toHaveBeenCalledWith("t");
-    expect(onSubmit).toHaveBeenCalledTimes(1);
+  describe("入力すると", () => {
+    test("buttonが押せる", () => {
+      // arrange
+      const onSubmit = jest.fn();
+      const submitting = false;
+      render(<PlaylistForm onSubmit={onSubmit} submitting={submitting} />);
+      userEvent.type(screen.getByRole("textbox"), "t");
+      // act
+      userEvent.click(screen.getByRole("button"));
+      // assert
+      expect(onSubmit).toHaveBeenCalledWith("t");
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
+
+    test("enterでsubmitできる", () => {
+      // arrange
+      const onSubmit = jest.fn();
+      const submitting = false;
+      render(<PlaylistForm onSubmit={onSubmit} submitting={submitting} />);
+      userEvent.type(screen.getByRole("textbox"), "t");
+      // act
+      userEvent.type(screen.getByRole("textbox"), "{enter}");
+      // assert
+      expect(onSubmit).toHaveBeenCalledWith("t");
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("submittingがtrueのとき", () => {
@@ -115,6 +153,21 @@ describe("PlaylistForm", () => {
       userEvent.type(screen.getByRole("textbox"), "test");
       // assert
       expect(screen.getByRole("textbox")).toHaveValue("");
+    });
+
+    test("enterでsubmitできない", () => {
+      // arrange
+      const onSubmit = jest.fn();
+      const initialSubmitting = false;
+      const { rerender } = render(<PlaylistForm onSubmit={onSubmit} submitting={initialSubmitting} />);
+      userEvent.type(screen.getByRole("textbox"), "test");
+      // rerender to switch submitting to true
+      const secondSubmitting = true;
+      rerender(<PlaylistForm onSubmit={onSubmit} submitting={secondSubmitting} />);
+      // act
+      userEvent.type(screen.getByRole("textbox"), "{enter}");
+      // assert
+      expect(onSubmit).not.toHaveBeenCalled();
     });
   });
 
@@ -150,6 +203,21 @@ describe("PlaylistForm", () => {
       expect(onSubmit).toHaveBeenCalledTimes(1); // 2回クリックに対して1回だけ呼ばれる
     });
 
+    test("enterでsubmitできなくなる", () => {
+      // arrange
+      const onSubmit = jest.fn().mockImplementationOnce(() => {
+        throw new Error("Submit error");
+      });
+      const submitting = false;
+      render(<PlaylistForm onSubmit={onSubmit} submitting={submitting} />);
+      userEvent.type(screen.getByRole("textbox"), "t");
+      // act
+      userEvent.click(screen.getByRole("button"));
+      userEvent.type(screen.getByRole("textbox"), "{enter}");
+      // assert
+      expect(onSubmit).toHaveBeenCalledTimes(1); // enter分がカウントされていない
+    });
+
     test("再入力するとエラーメッセージは消える", () => {
       // arrange
       const onSubmit = () => {
@@ -177,6 +245,22 @@ describe("PlaylistForm", () => {
       // act
       userEvent.type(screen.getByRole("textbox"), "e");
       userEvent.click(screen.getByRole("button"));
+      // assert
+      expect(onSubmit).toHaveBeenCalledTimes(2);
+    });
+
+    test("再入力するとenterでsubmitできるようになる", () => {
+      // arrange
+      const onSubmit = jest.fn().mockImplementationOnce(() => {
+        throw new Error("Submit error");
+      });
+      const submitting = false;
+      render(<PlaylistForm onSubmit={onSubmit} submitting={submitting} />);
+      userEvent.type(screen.getByRole("textbox"), "t");
+      userEvent.click(screen.getByRole("button"));
+      // act
+      userEvent.type(screen.getByRole("textbox"), "e");
+      userEvent.type(screen.getByRole("textbox"), "{enter}");
       // assert
       expect(onSubmit).toHaveBeenCalledTimes(2);
     });
