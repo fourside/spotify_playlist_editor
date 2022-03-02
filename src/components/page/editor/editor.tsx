@@ -1,4 +1,4 @@
-import { useCallback, useState, VFC } from "react";
+import { useCallback, useMemo, useState, VFC } from "react";
 import { pageContainer, editorContainer } from "./editor.css";
 import { Track } from "../../../model";
 import { DndProvider } from "react-dnd";
@@ -32,7 +32,7 @@ export const Editor: VFC = () => {
         </DndProvider>
       </div>
       {trackDetail !== undefined && (
-        <Modal onOutsideClick={handleTrackDetailModalClose}>
+        <Modal open={true} onClose={handleTrackDetailModalClose}>
           <TrackDetailComponent track={trackDetail} />
         </Modal>
       )}
