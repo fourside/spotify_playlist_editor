@@ -29,10 +29,13 @@ export default nextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, user }) {
       if (account) {
         token.refreshToken = account.refresh_token;
         token.accessToken = account.access_token;
+      }
+      if (user) {
+        token.userId = user.id;
       }
       return token;
     },
@@ -41,6 +44,7 @@ export default nextAuth({
         refreshToken: token.refreshToken,
         accessToken: token.accessToken,
       };
+      session.userId = token.userId;
       return session;
     },
   },

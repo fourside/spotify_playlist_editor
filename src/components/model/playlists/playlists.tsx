@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const PlaylistsComponent: VFC<Props> = (props) => {
-  const { loading, myPlaylists, error } = useMyPlaylists();
+  const { loading, myPlaylists, error, onCreatePlaylist } = useMyPlaylists();
 
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -28,14 +28,15 @@ export const PlaylistsComponent: VFC<Props> = (props) => {
     setOpen(true);
   }, []);
 
-  const handleCreatePlaylistSubmit = useCallback(async (playlistName: string) => {
-    console.log(playlistName);
-    setSubmitting(true);
-    setTimeout(() => {
+  const handleCreatePlaylistSubmit = useCallback(
+    async (playlistName: string) => {
+      setSubmitting(true);
+      await onCreatePlaylist(playlistName);
       setSubmitting(false);
       setOpen(false);
-    }, 2000);
-  }, []);
+    },
+    [onCreatePlaylist]
+  );
 
   if (loading) {
     return (

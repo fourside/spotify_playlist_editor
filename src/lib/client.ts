@@ -1,5 +1,5 @@
-import { PlaylistResponse, PlaylistTrackResponse, SavedTrackResponse } from "../model";
-import { myPlaylistsResponseJson, playlistTrackResponseJson, savedTrackResponseJson } from "../schema";
+import { Playlist, PlaylistResponse, PlaylistTrackResponse, SavedTrackResponse } from "../model";
+import { myPlaylistsResponseJson, playlistJson, playlistTrackResponseJson, savedTrackResponseJson } from "../schema";
 
 export async function getSavedTracks(): Promise<SavedTrackResponse> {
   const response = await fetch(`/api/saved-tracks`, {
@@ -32,4 +32,19 @@ export async function getPlaylistTracks(playlistId: string): Promise<PlaylistTra
   }
   const json = await response.json();
   return playlistTrackResponseJson.parse(json);
+}
+
+export async function createPlaylist(name: string): Promise<Playlist> {
+  const response = await fetch("/api/playlists", {
+    credentials: "include",
+    method: "POST",
+    body: JSON.stringify({
+      name,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`response is not ok: status=${response.status}`);
+  }
+  const json = await response.json();
+  return playlistJson.parse(json);
 }

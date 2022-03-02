@@ -19,7 +19,7 @@ export const savedTrackResponseJson = schemaForType<SavedTrackResponse>()(
   })
 );
 
-const playlistJson = schemaForType<Playlist>()(
+export const playlistJson = schemaForType<Playlist>()(
   z.object({
     id: z.string(),
     name: z.string(),

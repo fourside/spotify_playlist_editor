@@ -56,7 +56,7 @@ export const spotifySavedTrackResponseJson = schemaForType<SpotifyResponse<Spoti
   })
 );
 
-const spotifyPlaylist = schemaForType<SpotifyPlaylist>()(
+export const spotifyPlaylistJson = schemaForType<SpotifyPlaylist>()(
   z.object({
     id: z.string(),
     name: z.string(),
@@ -70,7 +70,7 @@ const spotifyPlaylist = schemaForType<SpotifyPlaylist>()(
 export const spotifyPlaylistResponseJson = schemaForType<SpotifyResponse<SpotifyPlaylist>>()(
   z.object({
     href: z.string(),
-    items: z.array(spotifyPlaylist),
+    items: z.array(spotifyPlaylistJson),
     limit: z.number(),
     offset: z.number(),
     next: z.nullable(z.string()),
