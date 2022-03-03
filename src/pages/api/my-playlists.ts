@@ -31,6 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.status(200).json({ playlists });
   } catch (error) {
     console.error(error);
-    res.status(500);
+    res.status(500).send(undefined);
   }
 }
