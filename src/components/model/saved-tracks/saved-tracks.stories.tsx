@@ -92,6 +92,7 @@ const savedTracks: Track[] = [
     durationMs: 120000,
     popularity: 30,
     albumImageUrl: "https://example.com",
+    uri: "spotify:track:normal-id-1",
   },
   {
     id: "normal-id-2",
@@ -100,6 +101,7 @@ const savedTracks: Track[] = [
     durationMs: 120000,
     popularity: 30,
     albumImageUrl: "https://example.com",
+    uri: "spotify:track:normal-id-2",
   },
   {
     id: "normal-id-3",
@@ -108,5 +110,6 @@ const savedTracks: Track[] = [
     durationMs: 120000,
     popularity: 30,
     albumImageUrl: "https://example.com",
+    uri: "spotify:track:normal-id-3",
   },
 ];

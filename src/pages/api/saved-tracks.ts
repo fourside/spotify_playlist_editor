@@ -27,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         durationMs: savedTrack.track.duration_ms,
         artistName: savedTrack.track.artists[0].name,
         albumImageUrl: savedTrack.track.album.images[0].url,
+        uri: savedTrack.track.uri,
       };
     });
 

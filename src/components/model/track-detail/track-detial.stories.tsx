@@ -35,5 +35,6 @@ Normal.args = {
     popularity: 30,
     durationMs: 120000,
     albumImageUrl: "https://via.placeholder.com/300.png",
+    uri: "spotify:track:normal-id",
   },
 };

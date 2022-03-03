@@ -30,6 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           albumImageUrl: playlistTrack.track.album.images[0].url,
           durationMs: playlistTrack.track.duration_ms,
           popularity: playlistTrack.track.popularity,
+          uri: playlistTrack.track.uri,
         };
       });
 

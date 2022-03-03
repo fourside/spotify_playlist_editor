@@ -10,6 +10,7 @@ const trackJson = schemaForType<Track>()(
     albumImageUrl: z.string(),
     durationMs: z.number(),
     popularity: z.number(),
+    uri: z.string(),
   })
 );
 

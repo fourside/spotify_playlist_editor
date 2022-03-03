@@ -34,6 +34,7 @@ const spotifyTrackJson = schemaForType<SpotifyTrack>()(
     name: z.string(),
     popularity: z.number(),
     type: z.literal("track"),
+    uri: z.string(),
   })
 );
 

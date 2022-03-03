@@ -37,6 +37,7 @@ Normal.args = {
     popularity: 30,
     durationMs: 12,
     albumImageUrl: "https://example.com/album.png",
+    uri: "spotify:track:normal-id",
   },
   dragType: "saved-track",
 };

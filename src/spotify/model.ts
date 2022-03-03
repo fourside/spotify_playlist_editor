@@ -23,6 +23,7 @@ export type SpotifyTrack = {
   name: string;
   popularity: number;
   type: "track";
+  uri: string;
 };
 
 export type SpotifyAlbum = {

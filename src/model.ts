@@ -9,6 +9,7 @@ export type Track = {
   albumImageUrl: string;
   durationMs: number;
   popularity: number;
+  uri: string;
 };
 
 export type PlaylistResponse = {

@@ -138,6 +138,7 @@ const playlistTracks: Track[] = [
     durationMs: 120000,
     popularity: 30,
     albumImageUrl: "https://example.com",
+    uri: "spotify:track:normal-id-1",
   },
   {
     id: "normal-id-2",
@@ -146,6 +147,7 @@ const playlistTracks: Track[] = [
     durationMs: 120000,
     popularity: 30,
     albumImageUrl: "https://example.com",
+    uri: "spotify:track:normal-id-2",
   },
   {
     id: "normal-id-3",
@@ -154,5 +156,6 @@ const playlistTracks: Track[] = [
     durationMs: 120000,
     popularity: 30,
     albumImageUrl: "https://example.com",
+    uri: "spotify:track:normal-id-3",
   },
 ];
