@@ -1,5 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
-import { SpotifyPlaylist, SpotifyPlaylistTrack, SpotifyResponse, SpotifySavedTrack } from "./model";
+import { SpotifyPlaylist, SpotifyPlaylistTrack, SpotifyResponse, SpotifySavedTrack, SpotifyTrack } from "./model";
 import {
   spotifyPlaylistJson,
   spotifyPlaylistResponseJson,
@@ -10,10 +9,6 @@ import {
 const baseUrl = "https://api.spotify.com/v1";
 
 export async function getSavedTracks(accessToken: string): Promise<SpotifyResponse<SpotifySavedTrack>> {
-  if (process.env.NODE_ENV !== "production") {
-    const file = readFileSync("./spotify-saved-tracks.json", "utf-8");
-    return spotifySavedTrackResponseJson.parse(JSON.parse(file));
-  }
   const response = await fetch(`${baseUrl}/me/tracks`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -73,7 +68,6 @@ export async function createPlaylist(name: string, userId: string, accessToken: 
     }),
   });
   const json = await response.json();
-  writeFileSync(`./spotify-create-playlist-[${json.id}].json`, JSON.stringify(json, null, 2));
   if (!response.ok) {
     console.error("spotify createPlaylist is not ok:", json);
     throw new Error(`${response.status} ${response.statusText}`);
@@ -103,4 +97,22 @@ export async function addTrackToPlaylist(
     throw new Error(`${response.status} ${response.statusText}`);
   }
   return await response.json();
+}
+
+export async function removeSavedTrack(trackId: SpotifyTrack["id"], accessToken: string): Promise<unknown> {
+  const response = await fetch(`${baseUrl}/me/tracks`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+    method: "DELETE",
+    body: JSON.stringify({
+      ids: [trackId],
+    }),
+  });
+  if (!response.ok) {
+    console.error("spotify removeSavedTrack is not ok:", response);
+    throw new Error(`${response.status} ${response.statusText}`);
+  }
+  return await response.text();
 }

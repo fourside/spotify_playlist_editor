@@ -62,3 +62,16 @@ export async function addTrackToPlaylist(playlistId: string, trackUri: string, p
     throw new Error(`response is not ok: status=${response.status}`);
   }
 }
+
+export async function removeSavedTrack(trackId: string): Promise<void> {
+  const response = await fetch("/api/saved-tracks", {
+    credentials: "include",
+    method: "DELETE",
+    body: JSON.stringify({
+      trackId,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`response is not ok: status=${response.status}`);
+  }
+}

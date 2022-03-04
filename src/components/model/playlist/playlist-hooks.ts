@@ -1,20 +1,21 @@
 import { useCallback } from "react";
 import { useSWRConfig } from "swr";
 import useSWRImmutable from "swr/immutable";
-import { addTrackToPlaylist, getPlaylistTracks } from "../../../lib/client";
+import { addTrackToPlaylist, getPlaylistTracks, removeSavedTrack } from "../../../lib/client";
 import { Track } from "../../../model";
 
 export function usePlaylistTracks(playlistId: string): {
   playlistTracks: Track[] | undefined;
   loading: boolean;
   error: Error | undefined;
-  onAddTrack: (trackUri: string, position: number) => Promise<void>;
+  onMove: (track: Track, position: number) => Promise<void>;
 } {
   const { mutate } = useSWRConfig();
   const { data, error } = useSWRImmutable(`playlists/${playlistId}`, () => getPlaylistTracks(playlistId));
-  const onAddTrack = useCallback(
-    async (trackUri: string, position: number) => {
-      await addTrackToPlaylist(playlistId, trackUri, position);
+  const onMove = useCallback(
+    async (track: Track, position: number) => {
+      await addTrackToPlaylist(playlistId, track.uri, position);
+      await removeSavedTrack(track.id);
       mutate(`playlists/${playlistId}`);
     },
     [mutate, playlistId]
@@ -24,6 +25,6 @@ export function usePlaylistTracks(playlistId: string): {
     playlistTracks: data?.tracks,
     loading: data === undefined && error === undefined,
     error: error,
-    onAddTrack,
+    onMove,
   };
 }

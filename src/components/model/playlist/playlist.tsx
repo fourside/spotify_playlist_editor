@@ -14,20 +14,20 @@ type Props = {
 };
 
 export const PlaylistComponent: VFC<Props> = (props) => {
-  const { playlistTracks, error, loading, onAddTrack } = usePlaylistTracks(props.playlist.id);
-  const [adding, setAdding] = useState(false);
+  const { playlistTracks, error, loading, onMove } = usePlaylistTracks(props.playlist.id);
+  const [moving, setMoving] = useState(false);
 
   const handleTrackDrop = useCallback(
     async (droppedTrack: Track, position: number) => {
-      setAdding(true);
+      setMoving(true);
       try {
-        await onAddTrack(droppedTrack.uri, position);
+        await onMove(droppedTrack, position);
       } catch (error) {
         console.error(error);
       }
-      setAdding(false);
+      setMoving(false);
     },
-    [onAddTrack]
+    [onMove]
   );
 
   return (
@@ -47,7 +47,7 @@ export const PlaylistComponent: VFC<Props> = (props) => {
               key={track.id}
               track={track}
               index={index}
-              disabled={adding}
+              disabled={moving}
               dragType="playlist-track"
               onClickInformation={props.onClickInformation}
               onDrop={handleTrackDrop}
