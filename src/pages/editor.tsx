@@ -1,8 +1,16 @@
 import { NextPage } from "next";
+import Head from "next/head";
 import { Editor } from "../components/page/editor/editor";
 
 const EditorPage: NextPage = () => {
-  return <Editor />;
+  return (
+    <>
+      <Head>
+        <title>Spotify Playlist Editor</title>
+      </Head>
+      <Editor />
+    </>
+  );
 };
 
 export default EditorPage;
