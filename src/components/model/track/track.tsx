@@ -24,15 +24,19 @@ export type DragType = "saved-track" | "playlist-track";
 type TrackComponentProps = {
   track: Track;
   dragType: DragType;
+  index: number;
+  disabled: boolean;
   onClickInformation: (track: Track) => void;
+  onDrop: (track: Track, position: number) => void;
 };
 
 export const TrackComponent: VFC<TrackComponentProps> = (props) => {
-  const { onClickInformation } = props;
+  const { onClickInformation, onDrop } = props;
 
   const [dragCollected, dragRef] = useDrag({
     type: props.dragType,
     item: () => props.track,
+    canDrag: () => !props.disabled,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -40,17 +44,17 @@ export const TrackComponent: VFC<TrackComponentProps> = (props) => {
 
   const acceptDragType = props.dragType === "playlist-track" ? "saved-track" : "playlist-track";
 
-  const [dropTopCollected, dropTopRef] = useDrop({
+  const [dropTopCollected, dropTopRef] = useDrop<Track, void, { isOver: boolean }>({
     accept: acceptDragType,
-    drop: (dropped) => console.log("drop top!", dropped),
+    drop: (dropped) => onDrop(dropped, props.index),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   });
 
-  const [dropBottomCollected, dropBottomRef] = useDrop({
+  const [dropBottomCollected, dropBottomRef] = useDrop<Track, void, { isOver: boolean }>({
     accept: acceptDragType,
-    drop: (dropped) => console.log("drop bottom!", dropped),
+    drop: (dropped) => onDrop(dropped, props.index + 1),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),

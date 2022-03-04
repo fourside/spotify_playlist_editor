@@ -48,3 +48,17 @@ export async function createPlaylist(name: string): Promise<Playlist> {
   const json = await response.json();
   return playlistJson.parse(json);
 }
+
+export async function addTrackToPlaylist(playlistId: string, trackUri: string, position: number): Promise<void> {
+  const response = await fetch(`/api/playlists/${playlistId}/tracks`, {
+    credentials: "include",
+    method: "POST",
+    body: JSON.stringify({
+      trackUri,
+      position,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`response is not ok: status=${response.status}`);
+  }
+}

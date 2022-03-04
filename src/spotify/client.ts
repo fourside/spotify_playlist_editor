@@ -80,3 +80,27 @@ export async function createPlaylist(name: string, userId: string, accessToken: 
   }
   return spotifyPlaylistJson.parse(json);
 }
+
+export async function addTrackToPlaylist(
+  playlistId: string,
+  trackUri: string,
+  position: number,
+  accessToken: string
+): Promise<unknown> {
+  const response = await fetch(`${baseUrl}/playlists/${playlistId}/tracks`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+    method: "POST",
+    body: JSON.stringify({
+      uris: [trackUri],
+      position,
+    }),
+  });
+  if (!response.ok) {
+    console.error("spotify addTrackToPlaylist is not ok:", response);
+    throw new Error(`${response.status} ${response.statusText}`);
+  }
+  return await response.json();
+}

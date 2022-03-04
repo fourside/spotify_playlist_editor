@@ -1,4 +1,4 @@
-import { VFC } from "react";
+import { useCallback, useState, VFC } from "react";
 import { Playlist, Track } from "../../../model";
 import { Accordion } from "../../ui/accordion/accordion";
 import { PlaylistIcon } from "../../icons";
@@ -14,7 +14,21 @@ type Props = {
 };
 
 export const PlaylistComponent: VFC<Props> = (props) => {
-  const { playlistTracks, error, loading } = usePlaylistTracks(props.playlist.id);
+  const { playlistTracks, error, loading, onAddTrack } = usePlaylistTracks(props.playlist.id);
+  const [adding, setAdding] = useState(false);
+
+  const handleTrackDrop = useCallback(
+    async (droppedTrack: Track, position: number) => {
+      setAdding(true);
+      try {
+        await onAddTrack(droppedTrack.uri, position);
+      } catch (error) {
+        console.error(error);
+      }
+      setAdding(false);
+    },
+    [onAddTrack]
+  );
 
   return (
     <Accordion header={<Header title={props.playlist.name} />} title={props.playlist.name}>
@@ -28,12 +42,15 @@ export const PlaylistComponent: VFC<Props> = (props) => {
         ) : playlistTracks?.length === 0 ? (
           <EmptyTrackComponent dragType="playlist-track" />
         ) : (
-          playlistTracks?.map((track) => (
+          playlistTracks?.map((track, index) => (
             <TrackComponent
               key={track.id}
               track={track}
+              index={index}
+              disabled={adding}
               dragType="playlist-track"
               onClickInformation={props.onClickInformation}
+              onDrop={handleTrackDrop}
             />
           ))
         )}
