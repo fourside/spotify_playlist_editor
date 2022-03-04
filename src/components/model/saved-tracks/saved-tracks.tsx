@@ -16,10 +16,13 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
   const [moving, setMoving] = useState(false);
 
   const handleTrackDrop = useCallback(
-    async (droppedTrack: Track, position: number) => {
+    async (droppedTrack: Track, _position: number, playlistId: string | undefined) => {
+      if (playlistId === undefined) {
+        throw new Error("playlistId is undefined");
+      }
       setMoving(true);
       try {
-        await onMove(droppedTrack);
+        await onMove(droppedTrack, playlistId);
       } catch (error) {
         console.error(error);
       }
@@ -62,8 +65,9 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
             key={track.id}
             track={track}
             index={index}
-            disabled={false} // TODO
+            disabled={moving}
             dragType="saved-track"
+            playlistId={undefined}
             onClickInformation={props.onTrackInfoClick}
             onDrop={handleTrackDrop}
           />

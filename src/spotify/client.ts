@@ -99,6 +99,28 @@ export async function addTrackToPlaylist(
   return await response.json();
 }
 
+export async function removeTrackFromPlaylist(
+  playlistId: string,
+  trackUri: string,
+  accessToken: string
+): Promise<unknown> {
+  const response = await fetch(`${baseUrl}/playlists/${playlistId}/tracks`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+    method: "DELETE",
+    body: JSON.stringify({
+      tracks: [{ uri: trackUri }],
+    }),
+  });
+  if (!response.ok) {
+    console.error("spotify removeTrackFromPlaylist is not ok:", response);
+    throw new Error(`${response.status} ${response.statusText}`);
+  }
+  return await response.json();
+}
+
 export async function removeSavedTrack(trackId: SpotifyTrack["id"], accessToken: string): Promise<unknown> {
   const response = await fetch(`${baseUrl}/me/tracks`, {
     headers: {

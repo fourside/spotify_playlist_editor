@@ -1,6 +1,6 @@
 import { useCallback, VFC } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { Track } from "../../../model";
+import { Track, Playlist } from "../../../model";
 import { FontColors } from "../../../styles/colors.css";
 import { NormalText, SmallText } from "../../../styles/fonts.css";
 import { InfoIcon } from "../../icons";
@@ -21,21 +21,24 @@ import {
 
 export type DragType = "saved-track" | "playlist-track";
 
+type DragObject = { track: Track; playlistId?: Playlist["id"] };
+
 type TrackComponentProps = {
   track: Track;
   dragType: DragType;
   index: number;
   disabled: boolean;
+  playlistId: string | undefined;
   onClickInformation: (track: Track) => void;
-  onDrop: (track: Track, position: number) => void;
+  onDrop: (track: Track, position: number, playlistId?: string) => void;
 };
 
 export const TrackComponent: VFC<TrackComponentProps> = (props) => {
   const { onClickInformation, onDrop } = props;
 
-  const [dragCollected, dragRef] = useDrag({
+  const [dragCollected, dragRef] = useDrag<DragObject, void, { isDragging: boolean }>({
     type: props.dragType,
-    item: () => props.track,
+    item: () => ({ track: props.track, playlistId: props.playlistId }),
     canDrag: () => !props.disabled,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -44,17 +47,17 @@ export const TrackComponent: VFC<TrackComponentProps> = (props) => {
 
   const acceptDragType = props.dragType === "playlist-track" ? "saved-track" : "playlist-track";
 
-  const [dropTopCollected, dropTopRef] = useDrop<Track, void, { isOver: boolean }>({
+  const [dropTopCollected, dropTopRef] = useDrop<DragObject, void, { isOver: boolean }>({
     accept: acceptDragType,
-    drop: (dropped) => onDrop(dropped, props.index),
+    drop: (dropped) => onDrop(dropped.track, props.index, dropped.playlistId),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   });
 
-  const [dropBottomCollected, dropBottomRef] = useDrop<Track, void, { isOver: boolean }>({
+  const [dropBottomCollected, dropBottomRef] = useDrop<DragObject, void, { isOver: boolean }>({
     accept: acceptDragType,
-    drop: (dropped) => onDrop(dropped, props.index + 1),
+    drop: (dropped) => onDrop(dropped.track, props.index + 1, dropped.playlistId),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
