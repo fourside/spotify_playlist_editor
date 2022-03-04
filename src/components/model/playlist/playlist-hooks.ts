@@ -1,5 +1,6 @@
 import { useCallback } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
+import useSWRImmutable from "swr/immutable";
 import { addTrackToPlaylist, getPlaylistTracks } from "../../../lib/client";
 import { Track } from "../../../model";
 
@@ -10,7 +11,7 @@ export function usePlaylistTracks(playlistId: string): {
   onAddTrack: (trackUri: string, position: number) => Promise<void>;
 } {
   const { mutate } = useSWRConfig();
-  const { data, error } = useSWR(`playlists/${playlistId}`, () => getPlaylistTracks(playlistId));
+  const { data, error } = useSWRImmutable(`playlists/${playlistId}`, () => getPlaylistTracks(playlistId));
   const onAddTrack = useCallback(
     async (trackUri: string, position: number) => {
       await addTrackToPlaylist(playlistId, trackUri, position);

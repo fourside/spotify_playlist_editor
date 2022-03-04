@@ -1,5 +1,6 @@
 import { useCallback } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
+import useSWRImmutable from "swr/immutable";
 import { createPlaylist, getMyPlaylists } from "../../../lib/client";
 import { Playlist } from "../../../model";
 
@@ -10,7 +11,7 @@ export function useMyPlaylists(): {
   onCreatePlaylist: (name: string) => Promise<void>;
 } {
   const { mutate } = useSWRConfig();
-  const { data, error } = useSWR("my-playlists", getMyPlaylists);
+  const { data, error } = useSWRImmutable("my-playlists", getMyPlaylists);
 
   const onCreatePlaylist = useCallback(
     async (name: string) => {
