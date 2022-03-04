@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { SavedTrackResponse, Track } from "../../model";
-import { getSavedTracks, removeSavedTrack } from "../../spotify/client";
+import { addSavedTrack, getSavedTracks, removeSavedTrack } from "../../spotify/client";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<SavedTrackResponse | undefined>) {
   const session = await getSession({ req });
@@ -61,6 +61,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  // GET nor DELETE
+  if (req.method === "PUT") {
+    const body = JSON.parse(req.body);
+    const { trackId } = body;
+
+    if (typeof trackId !== "string") {
+      console.log("trackUri is required");
+      res.status(400).send(undefined);
+      return;
+    }
+
+    try {
+      const response = await addSavedTrack(trackId, accessToken);
+      console.log({ response });
+      res.status(200).send(undefined);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(undefined);
+    }
+    return;
+  }
+
+  // GET nor DELETE, PUT
   res.status(405).send(undefined);
 }

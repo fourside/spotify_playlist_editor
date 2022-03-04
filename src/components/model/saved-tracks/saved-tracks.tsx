@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useCallback, VFC } from "react";
+import { useCallback, useState, VFC } from "react";
 import { Track } from "../../../model";
 import { HeartIcon } from "../../icons";
 import { Loader } from "../../ui/loader/loader";
@@ -12,11 +12,21 @@ type Props = {
 };
 
 export const SavedTracksComponent: VFC<Props> = (props) => {
-  const { loading, savedTracks, error } = useSavedTracks();
+  const { loading, savedTracks, error, onMove } = useSavedTracks();
+  const [moving, setMoving] = useState(false);
 
-  const handleTrackDrop = useCallback((droppedTrack: Track, position: number) => {
-    console.log(droppedTrack.uri, position);
-  }, []);
+  const handleTrackDrop = useCallback(
+    async (droppedTrack: Track, position: number) => {
+      setMoving(true);
+      try {
+        await onMove(droppedTrack);
+      } catch (error) {
+        console.error(error);
+      }
+      setMoving(false);
+    },
+    [onMove]
+  );
 
   if (loading) {
     return (

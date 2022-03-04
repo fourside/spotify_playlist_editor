@@ -116,3 +116,21 @@ export async function removeSavedTrack(trackId: SpotifyTrack["id"], accessToken:
   }
   return await response.text();
 }
+
+export async function addSavedTrack(trackId: SpotifyTrack["id"], accessToken: string): Promise<unknown> {
+  const response = await fetch(`${baseUrl}/me/tracks`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+    method: "PUT",
+    body: JSON.stringify({
+      ids: [trackId],
+    }),
+  });
+  if (!response.ok) {
+    console.error("spotify addSavedTrack is not ok:", response);
+    throw new Error(`${response.status} ${response.statusText}`);
+  }
+  return await response.text();
+}
