@@ -24,7 +24,7 @@ export async function getSavedTracks(accessToken: string): Promise<SpotifyRespon
 }
 
 export async function getMyPlaylists(accessToken: string): Promise<SpotifyResponse<SpotifyPlaylist>> {
-  const response = await fetch(`${baseUrl}/me/playlists`, {
+  const response = await fetch(`${baseUrl}/me/playlists?limit=50`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
