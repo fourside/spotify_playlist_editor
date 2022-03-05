@@ -30,8 +30,8 @@ const fetcher: Request = async ({ method = "GET", url, accessToken, body, header
   });
 };
 
-export async function getSavedTracks(accessToken: string): Promise<SpotifyResponse<SpotifySavedTrack>> {
-  const response = await fetcher({ url: "/me/tracks", accessToken });
+export async function getSavedTracks(accessToken: string, offset: number): Promise<SpotifyResponse<SpotifySavedTrack>> {
+  const response = await fetcher({ url: `/me/tracks?offset=${offset}`, accessToken });
   const json = await response.json();
   if (!response.ok) {
     console.error("spotify getSavedTrack is not ok:", json);

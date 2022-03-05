@@ -18,8 +18,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   if (req.method === "GET") {
+    const offset = Number(req.query.offset);
     try {
-      const parsed = await getSavedTracks(accessToken);
+      const parsed = await getSavedTracks(accessToken, offset);
       const tracks = parsed.items.map<Track>((savedTrack) => {
         return {
           id: savedTrack.track.id,

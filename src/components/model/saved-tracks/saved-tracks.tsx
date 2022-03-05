@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useCallback, useState, VFC } from "react";
 import { Track } from "../../../model";
 import { HeartIcon } from "../../icons";
+import { Button } from "../../ui/button/button";
 import { Loader } from "../../ui/loader/loader";
 import { TrackComponent } from "../track/track";
 import { useSavedTracks } from "./saved-tracks-hooks";
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export const SavedTracksComponent: VFC<Props> = (props) => {
-  const { loading, savedTracks, error, onAdd, onRemove } = useSavedTracks();
+  const { loading, savedTracks, error, onAdd, onRemove, readMore } = useSavedTracks();
   const [moving, setMoving] = useState(false);
 
   const handleTrackDrop = useCallback(
@@ -83,6 +84,9 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
             onDragEnd={handleTrackDragEnd}
           />
         ))}
+        <Button buttonType="tertiary" onClick={readMore}>
+          read more
+        </Button>
       </div>
     </div>
   );

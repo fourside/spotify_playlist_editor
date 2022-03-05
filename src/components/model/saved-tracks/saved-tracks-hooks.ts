@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useSWRImmutable from "swr/immutable";
+import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 import { useSWRConfig } from "swr";
 import { addSavedTrack, getSavedTracks, removeSavedTrack } from "../../../lib/client";
 import { Track } from "../../../model";
@@ -10,9 +10,16 @@ export function useSavedTracks(): {
   error: Error | undefined;
   onAdd: (track: Track) => Promise<void>;
   onRemove: (track: Track) => Promise<void>;
+  readMore: () => void;
 } {
   const { mutate } = useSWRConfig();
-  const { data, error } = useSWRImmutable("saved-tracks", getSavedTracks);
+  const getKey: SWRInfiniteKeyLoader = (pageIndex, prevPageData) => {
+    if (prevPageData !== null && prevPageData.length === 0) {
+      return null;
+    }
+    return [`saved-tracks?offset=${pageIndex * 20}`, pageIndex * 20];
+  };
+  const { data, error, size, setSize } = useSWRInfinite(getKey, getSavedTracks, { revalidateFirstPage: false });
 
   const onAdd = useCallback(
     async (track: Track) => {
@@ -30,11 +37,16 @@ export function useSavedTracks(): {
     [mutate]
   );
 
+  const readMore = useCallback(() => {
+    setSize(size + 1);
+  }, [setSize, size]);
+
   return {
-    savedTracks: data?.tracks,
+    savedTracks: data?.flatMap((it) => it.tracks),
     loading: data === undefined && error === undefined,
     error: error,
     onAdd,
     onRemove,
+    readMore,
   };
 }
