@@ -8,13 +8,30 @@ import {
 
 const baseUrl = "https://api.spotify.com/v1";
 
-export async function getSavedTracks(accessToken: string): Promise<SpotifyResponse<SpotifySavedTrack>> {
-  const response = await fetch(`${baseUrl}/me/tracks`, {
+type Request = (request: {
+  method?: "GET" | "POST" | "PUT" | "DELETE";
+  url: string;
+  accessToken: string;
+  body?: unknown;
+  headers?: Record<string, string>;
+  init?: Omit<RequestInit, "headers" | "method" | "body">;
+}) => Promise<Response>;
+
+const fetcher: Request = async ({ method = "GET", url, accessToken, body, headers, init }) => {
+  return await fetch(`${baseUrl}${url}`, {
+    method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      ...headers,
     },
     credentials: "include",
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+    ...init,
   });
+};
+
+export async function getSavedTracks(accessToken: string): Promise<SpotifyResponse<SpotifySavedTrack>> {
+  const response = await fetcher({ url: "/me/tracks", accessToken });
   const json = await response.json();
   if (!response.ok) {
     console.error("spotify getSavedTrack is not ok:", json);
@@ -24,12 +41,7 @@ export async function getSavedTracks(accessToken: string): Promise<SpotifyRespon
 }
 
 export async function getMyPlaylists(accessToken: string): Promise<SpotifyResponse<SpotifyPlaylist>> {
-  const response = await fetch(`${baseUrl}/me/playlists?limit=50`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
-  });
+  const response = await fetcher({ url: "/me/playlists?limit=50", accessToken });
   const json = await response.json();
   if (!response.ok) {
     console.error("spotify getSavedTrack is not ok:", json);
@@ -42,12 +54,7 @@ export async function getPlaylistTracks(
   playlistId: string,
   accessToken: string
 ): Promise<SpotifyResponse<SpotifyPlaylistTrack>> {
-  const response = await fetch(`${baseUrl}/playlists/${playlistId}/tracks`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
-  });
+  const response = await fetcher({ url: `/playlists/${playlistId}/tracks`, accessToken });
   const json = await response.json();
   if (!response.ok) {
     console.error("spotify getSavedTrack is not ok:", json);
@@ -57,16 +64,7 @@ export async function getPlaylistTracks(
 }
 
 export async function createPlaylist(name: string, userId: string, accessToken: string): Promise<SpotifyPlaylist> {
-  const response = await fetch(`${baseUrl}/users/${userId}/playlists`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
-    method: "POST",
-    body: JSON.stringify({
-      name,
-    }),
-  });
+  const response = await fetcher({ method: "POST", url: `/users/${userId}/playlists`, accessToken, body: { name } });
   const json = await response.json();
   if (!response.ok) {
     console.error("spotify createPlaylist is not ok:", json);
@@ -81,16 +79,11 @@ export async function addTrackToPlaylist(
   position: number,
   accessToken: string
 ): Promise<unknown> {
-  const response = await fetch(`${baseUrl}/playlists/${playlistId}/tracks`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
+  const response = await fetcher({
     method: "POST",
-    body: JSON.stringify({
-      uris: [trackUri],
-      position,
-    }),
+    url: `/playlists/${playlistId}/tracks`,
+    accessToken,
+    body: { uris: [trackUri], position },
   });
   if (!response.ok) {
     console.error("spotify addTrackToPlaylist is not ok:", response);
@@ -104,15 +97,11 @@ export async function removeTrackFromPlaylist(
   trackUri: string,
   accessToken: string
 ): Promise<unknown> {
-  const response = await fetch(`${baseUrl}/playlists/${playlistId}/tracks`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
+  const response = await fetcher({
     method: "DELETE",
-    body: JSON.stringify({
-      tracks: [{ uri: trackUri }],
-    }),
+    url: `/playlists/${playlistId}/tracks`,
+    accessToken,
+    body: { uris: [trackUri] },
   });
   if (!response.ok) {
     console.error("spotify removeTrackFromPlaylist is not ok:", response);
@@ -122,16 +111,7 @@ export async function removeTrackFromPlaylist(
 }
 
 export async function removeSavedTrack(trackId: SpotifyTrack["id"], accessToken: string): Promise<unknown> {
-  const response = await fetch(`${baseUrl}/me/tracks`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
-    method: "DELETE",
-    body: JSON.stringify({
-      ids: [trackId],
-    }),
-  });
+  const response = await fetcher({ method: "DELETE", url: `/me/tracks`, accessToken, body: { ids: [trackId] } });
   if (!response.ok) {
     console.error("spotify removeSavedTrack is not ok:", response);
     throw new Error(`${response.status} ${response.statusText}`);
@@ -140,16 +120,7 @@ export async function removeSavedTrack(trackId: SpotifyTrack["id"], accessToken:
 }
 
 export async function addSavedTrack(trackId: SpotifyTrack["id"], accessToken: string): Promise<unknown> {
-  const response = await fetch(`${baseUrl}/me/tracks`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
-    method: "PUT",
-    body: JSON.stringify({
-      ids: [trackId],
-    }),
-  });
+  const response = await fetcher({ method: "PUT", url: `/me/tracks`, accessToken, body: { ids: [trackId] } });
   if (!response.ok) {
     console.error("spotify addSavedTrack is not ok:", response);
     throw new Error(`${response.status} ${response.statusText}`);
