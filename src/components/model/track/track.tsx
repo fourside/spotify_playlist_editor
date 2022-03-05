@@ -21,8 +21,6 @@ import {
 
 export type DragType = "saved-track" | "playlist-track";
 
-type DragObject = { track: Track; playlistId?: Playlist["id"] };
-
 type TrackComponentProps = {
   track: Track;
   dragType: DragType;
@@ -30,34 +28,40 @@ type TrackComponentProps = {
   disabled: boolean;
   playlistId: string | undefined;
   onClickInformation: (track: Track) => void;
-  onDrop: (track: Track, position: number, playlistId?: string) => void;
+  onDrop: (track: Track, position: number) => void;
+  onDragEnd: (track: Track) => void;
 };
 
 export const TrackComponent: VFC<TrackComponentProps> = (props) => {
-  const { onClickInformation, onDrop } = props;
+  const { onClickInformation, onDrop, onDragEnd } = props;
 
-  const [dragCollected, dragRef] = useDrag<DragObject, void, { isDragging: boolean }>({
+  const [dragCollected, dragRef] = useDrag({
     type: props.dragType,
-    item: () => ({ track: props.track, playlistId: props.playlistId }),
+    item: () => props.track,
     canDrag: () => !props.disabled,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    end: (track, monitor) => {
+      if (monitor.didDrop()) {
+        onDragEnd(track);
+      }
+    },
   });
 
   const acceptDragType = props.dragType === "playlist-track" ? "saved-track" : "playlist-track";
 
-  const [dropTopCollected, dropTopRef] = useDrop<DragObject, void, { isOver: boolean }>({
+  const [dropTopCollected, dropTopRef] = useDrop<Track, void, { isOver: boolean }>({
     accept: acceptDragType,
-    drop: (dropped) => onDrop(dropped.track, props.index, dropped.playlistId),
+    drop: (dropped) => onDrop(dropped, props.index),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   });
 
-  const [dropBottomCollected, dropBottomRef] = useDrop<DragObject, void, { isOver: boolean }>({
+  const [dropBottomCollected, dropBottomRef] = useDrop<Track, void, { isOver: boolean }>({
     accept: acceptDragType,
-    drop: (dropped) => onDrop(dropped.track, props.index + 1, dropped.playlistId),
+    drop: (dropped) => onDrop(dropped, props.index + 1),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
