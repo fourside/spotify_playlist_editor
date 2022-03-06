@@ -13,3 +13,7 @@ export const container = style([
   },
   NormalText,
 ]);
+
+export const dropOver = style({
+  opacity: 0.4,
+});

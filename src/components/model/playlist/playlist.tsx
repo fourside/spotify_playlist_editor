@@ -53,7 +53,7 @@ export const PlaylistComponent: VFC<Props> = (props) => {
         ) : error !== undefined ? (
           <div>error: {error.message}</div>
         ) : playlistTracks?.length === 0 ? (
-          <EmptyTrackComponent dragType="playlist-track" />
+          <EmptyTrackComponent dragType="playlist-track" onDrop={handleTrackDrop} />
         ) : (
           playlistTracks?.map((track, index) => (
             <TrackComponent
