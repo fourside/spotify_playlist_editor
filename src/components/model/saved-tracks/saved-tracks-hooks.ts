@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
-import { useSWRConfig } from "swr";
 import { addSavedTrack, getSavedTracks, removeSavedTrack } from "../../../lib/client";
 import { Track } from "../../../model";
 
@@ -12,19 +11,18 @@ export function useSavedTracks(): {
   onRemove: (track: Track) => Promise<void>;
   readMore: () => void;
 } {
-  const { mutate } = useSWRConfig();
   const getKey: SWRInfiniteKeyLoader = (pageIndex, prevPageData) => {
     if (prevPageData !== null && prevPageData.length === 0) {
       return null;
     }
     return [`saved-tracks?offset=${pageIndex * 20}`, pageIndex * 20];
   };
-  const { data, error, size, setSize } = useSWRInfinite(getKey, getSavedTracks, { revalidateFirstPage: false });
+  const { data, error, size, setSize, mutate } = useSWRInfinite(getKey, getSavedTracks, { revalidateFirstPage: false });
 
   const onAdd = useCallback(
     async (track: Track) => {
       await addSavedTrack(track.id);
-      mutate("saved-tracks");
+      mutate();
     },
     [mutate]
   );
@@ -32,7 +30,7 @@ export function useSavedTracks(): {
   const onRemove = useCallback(
     async (track: Track) => {
       await removeSavedTrack(track.id);
-      mutate("saved-tracks");
+      mutate();
     },
     [mutate]
   );
