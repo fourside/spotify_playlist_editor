@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useCallback, useState, VFC } from "react";
+import { useIntersectionObserver } from "../../../hooks/use-intersection-observer";
 import { Track } from "../../../model";
 import { HeartIcon } from "../../icons";
-import { Button } from "../../ui/button/button";
 import { Loader } from "../../ui/loader/loader";
 import { TrackComponent } from "../track/track";
 import { useSavedTracks } from "./saved-tracks-hooks";
@@ -15,6 +15,7 @@ type Props = {
 export const SavedTracksComponent: VFC<Props> = (props) => {
   const { loading, savedTracks, error, onAdd, onRemove, readMore } = useSavedTracks();
   const [moving, setMoving] = useState(false);
+  const { observedRef } = useIntersectionObserver<HTMLDivElement>(readMore);
 
   const handleTrackDrop = useCallback(
     async (droppedTrack: Track, _position: number) => {
@@ -84,9 +85,7 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
             onDragEnd={handleTrackDragEnd}
           />
         ))}
-        <Button buttonType="tertiary" onClick={readMore}>
-          read more
-        </Button>
+        <div ref={observedRef} />
       </div>
     </div>
   );
