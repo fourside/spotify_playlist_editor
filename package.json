@@ -10,6 +10,7 @@
     "test": "jest",
     "check": "tsc --noEmit && npm run lint && npm run test",
     "analyze": "ANALYZE=true npm run build",
+    "lighthouse": "ts-node ./scripts/lighthouse.ts",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -43,6 +44,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
     "@types/node": "17.0.18",
+    "@types/puppeteer-core": "^5.4.0",
     "@types/react": "17.0.39",
     "@types/react-dom": "^17.0.11",
     "@vanilla-extract/babel-plugin": "^1.1.4",
@@ -56,8 +58,11 @@
     "eslint-plugin-testing-library": "^5.0.5",
     "husky": "7.0.4",
     "jest": "^27.5.1",
+    "lighthouse": "^9.4.0",
     "msw": "^0.38.2",
     "prettier": "^2.5.1",
+    "puppeteer": "^13.4.1",
+    "ts-node": "^10.7.0",
     "typescript": "4.5.5"
   },
   "prettier": {
