@@ -2,6 +2,7 @@ import puppeteer from "puppeteer";
 import type { Browser, Page } from "puppeteer";
 import lighthouse from "lighthouse";
 import * as fs from "fs";
+import * as path from "path";
 
 const SPOTIFY_USER_NAME = process.env.SPOTIFY_USER_NAME;
 const SPOTIFY_PASSWORD = process.env.SPOTIFY_PASSWORD;
@@ -9,6 +10,7 @@ const SPOTIFY_PASSWORD = process.env.SPOTIFY_PASSWORD;
 const SPOTIFY_EDITOR_URL = process.env.SPOTIFY_EDITOR_URL;
 const PR_NUMBER = process.env.PR_NUMBER;
 const PORT = 8041;
+const REPORTS_DIR = path.join(__dirname, "reports");
 
 async function main(): Promise<void> {
   if (SPOTIFY_USER_NAME === undefined) {
@@ -63,7 +65,10 @@ async function main(): Promise<void> {
       },
     };
     const result = await lighthouse(newPage.url(), lhOptions, lhConfig);
-    fs.writeFileSync(`pr${PR_NUMBER}_report.html`, result.report);
+    if (!fs.existsSync(REPORTS_DIR)) {
+      fs.mkdirSync(REPORTS_DIR);
+    }
+    fs.writeFileSync(path.join(REPORTS_DIR, `pr${PR_NUMBER}_report.html`), result.report);
   } catch (error) {
     console.error(error);
   } finally {
