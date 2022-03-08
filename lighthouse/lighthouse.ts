@@ -47,7 +47,10 @@ async function main(): Promise<void> {
     await newPage.type("#login-password", SPOTIFY_PASSWORD);
     await newPage.click("#login-button");
     console.log("click the third button ...");
-    await newPage.waitForNavigation();
+    await newPage.waitForNavigation({
+      timeout: 60_000,
+      waitUntil: "domcontentloaded",
+    });
     console.log("navigated to a authenticated page ...");
 
     const lhOptions = { logLevel: "info", output: "html", port: PORT };
@@ -76,6 +79,9 @@ async function main(): Promise<void> {
     }
     fs.writeFileSync(path.join(REPORTS_DIR, `pr${PR_NUMBER}_report.html`), result.report);
   } catch (error) {
+    if (newPage !== undefined) {
+      newPage.screenshot({ path: "error.png" });
+    }
     console.error(error);
   } finally {
     await browser?.close();
