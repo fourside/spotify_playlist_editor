@@ -1,6 +1,5 @@
 import puppeteer from "puppeteer";
 import type { Browser, Page } from "puppeteer";
-// @ts-ignore
 import lighthouse from "lighthouse";
 import * as fs from "fs";
 
@@ -29,7 +28,7 @@ async function main(): Promise<void> {
       args: [`--remote-debugging-port=${PORT}`],
     });
     newPage = await browser.newPage();
-    await newPage.goto(`${SPOTIFY_EDITOR_URL}/`);
+    await newPage.goto(SPOTIFY_EDITOR_URL);
     await newPage.click("button");
     await newPage.waitForNavigation();
     await newPage.click("button");
