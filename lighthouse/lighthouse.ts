@@ -34,16 +34,21 @@ async function main(): Promise<void> {
       args: [`--remote-debugging-port=${PORT}`],
     });
     newPage = await browser.newPage();
+    console.log("goto / ...");
     await newPage.goto(SPOTIFY_EDITOR_URL);
     await newPage.waitForNetworkIdle();
     await newPage.click("button");
+    console.log("click the first button ...");
     await newPage.waitForNavigation();
     await newPage.click("button");
+    console.log("click the second button ...");
     await newPage.waitForNavigation();
     await newPage.type("#login-username", SPOTIFY_USER_NAME);
     await newPage.type("#login-password", SPOTIFY_PASSWORD);
     await newPage.click("#login-button");
+    console.log("click the third button ...");
     await newPage.waitForNavigation();
+    console.log("navigated to a authenticated page ...");
 
     const lhOptions = { logLevel: "info", output: "html", port: PORT };
     const lhConfig = {
