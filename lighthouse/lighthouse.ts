@@ -35,6 +35,7 @@ async function main(): Promise<void> {
     });
     newPage = await browser.newPage();
     await newPage.goto(SPOTIFY_EDITOR_URL);
+    await newPage.waitForNetworkIdle();
     await newPage.click("button");
     await newPage.waitForNavigation();
     await newPage.click("button");
