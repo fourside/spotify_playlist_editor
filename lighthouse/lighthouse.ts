@@ -7,6 +7,7 @@ const SPOTIFY_USER_NAME = process.env.SPOTIFY_USER_NAME;
 const SPOTIFY_PASSWORD = process.env.SPOTIFY_PASSWORD;
 
 const SPOTIFY_EDITOR_URL = process.env.SPOTIFY_EDITOR_URL;
+const PR_NUMBER = process.env.PR_NUMBER;
 const PORT = 8041;
 
 async function main(): Promise<void> {
@@ -18,6 +19,9 @@ async function main(): Promise<void> {
   }
   if (SPOTIFY_EDITOR_URL === undefined) {
     throw new Error("Please set SPOTIFY_EDITOR_URL");
+  }
+  if (PR_NUMBER === undefined) {
+    throw new Error("Please set PR_NUMBER");
   }
 
   let browser: Browser | undefined;
@@ -59,7 +63,7 @@ async function main(): Promise<void> {
       },
     };
     const result = await lighthouse(newPage.url(), lhOptions, lhConfig);
-    fs.writeFileSync("lighthouse.html", result.report);
+    fs.writeFileSync(`pr${PR_NUMBER}_report.html`, result.report);
   } catch (error) {
     console.error(error);
   } finally {

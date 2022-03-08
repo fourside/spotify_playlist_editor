@@ -21,6 +21,12 @@ jobs:
         run: npm ci
         working-directory: ./lighthouse
 
+      - name: Get PR number
+        id: get_pr_number
+        run: |
+          pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          echo "##[set-output name=pr_number;]$(echo ${pr_number})"
+
       - name: run lighthouse
         run: npm run lighthouse
         working-directory: ./lighthouse
@@ -28,3 +34,4 @@ jobs:
           SPOTIFY_USER_NAME: ${{ secrets.SPOTIFY_USER_NAME }}
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
           SPOTIFY_EDITOR_URL: https://spotify-playlist-editor.fourside.dev/
+          PR_NUMBER=${{ steps.get_pr_number.outputs.pr_number }}
