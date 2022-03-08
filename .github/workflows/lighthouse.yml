@@ -18,8 +18,7 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Setup dependencies
-        run: npm ci
-        working-directory: ./lighthouse
+        run: cd ./lighthouse && npm ci
 
       - name: Get PR number
         id: get_pr_number
@@ -29,7 +28,6 @@ jobs:
 
       - name: run lighthouse
         run: npm run lighthouse
-        working-directory: ./lighthouse
         env:
           SPOTIFY_USER_NAME: ${{ secrets.SPOTIFY_USER_NAME }}
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
