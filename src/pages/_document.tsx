@@ -3,7 +3,7 @@ import NextDocument, { Html, Head, Main, NextScript } from "next/document";
 class Document extends NextDocument {
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         </Head>
