@@ -24,7 +24,7 @@ async function main(): Promise<void> {
   let newPage: Page | undefined;
   try {
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: [`--remote-debugging-port=${PORT}`],
     });
     newPage = await browser.newPage();
