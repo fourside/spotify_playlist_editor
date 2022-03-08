@@ -32,7 +32,7 @@ jobs:
           SPOTIFY_USER_NAME: ${{ secrets.SPOTIFY_USER_NAME }}
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
           SPOTIFY_EDITOR_URL: https://spotify-playlist-editor.fourside.dev/
-          PR_NUMBER=${{ steps.get_pr_number.outputs.pr_number }}
+          PR_NUMBER: ${{ steps.get_pr_number.outputs.pr_number }}
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
