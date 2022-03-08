@@ -1,0 +1,19 @@
+{
+  "name": "lighthouse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.21",
+    "@types/puppeteer": "^5.4.5",
+    "lighthouse": "^9.4.0",
+    "puppeteer": "^13.5.0",
+    "ts-node": "^10.7.0"
+  }
+}
