@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lighthouse": "ts-node lighthouse.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
