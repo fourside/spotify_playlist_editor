@@ -78,6 +78,7 @@ async function main(): Promise<void> {
       fs.mkdirSync(REPORTS_DIR);
     }
     fs.writeFileSync(path.join(REPORTS_DIR, `pr${PR_NUMBER}_report.html`), result.report);
+    console.log("done");
   } catch (error) {
     if (newPage !== undefined) {
       await newPage.screenshot({ path: path.join(REPORTS_DIR, "error.png") });
