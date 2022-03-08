@@ -80,7 +80,7 @@ async function main(): Promise<void> {
     fs.writeFileSync(path.join(REPORTS_DIR, `pr${PR_NUMBER}_report.html`), result.report);
   } catch (error) {
     if (newPage !== undefined) {
-      newPage.screenshot({ path: "error.png" });
+      await newPage.screenshot({ path: path.join(REPORTS_DIR, "error.png") });
     }
     console.error(error);
   } finally {
