@@ -4,6 +4,7 @@ import { useIntersectionObserver } from "../../../hooks/use-intersection-observe
 import { Track } from "../../../model";
 import { HeartIcon } from "../../icons";
 import { Loader } from "../../ui/loader/loader";
+import { EmptyTrackComponent } from "../empty-track/empty-track";
 import { TrackComponent } from "../track/track";
 import { useSavedTracks } from "./saved-tracks-hooks";
 import { container, title, tracksContainer } from "./saved-tracks.css";
@@ -13,9 +14,16 @@ type Props = {
 };
 
 export const SavedTracksComponent: VFC<Props> = (props) => {
-  const { loading, savedTracks, error, onAdd, onRemove, readMore } = useSavedTracks();
+  const { loading, savedTracks, error, canReadMore, onAdd, onRemove, readMore } = useSavedTracks();
   const [moving, setMoving] = useState(false);
-  const { observedRef } = useIntersectionObserver<HTMLDivElement>(readMore);
+
+  const handleIntersectingReadMore = useCallback(() => {
+    if (canReadMore) {
+      readMore();
+    }
+  }, [canReadMore, readMore]);
+
+  const { observedRef } = useIntersectionObserver<HTMLDivElement>(handleIntersectingReadMore);
 
   const handleTrackDrop = useCallback(
     async (droppedTrack: Track, _position: number) => {
@@ -43,13 +51,6 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
     [onRemove]
   );
 
-  if (loading) {
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
-  }
   if (error !== undefined) {
     console.error(error);
     return (
@@ -72,20 +73,28 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
         Saved tracks
       </div>
       <div className={tracksContainer}>
-        {savedTracks?.map((track, index) => (
-          <TrackComponent
-            key={track.id}
-            track={track}
-            index={index}
-            disabled={moving}
-            dragType="saved-track"
-            playlistId={undefined}
-            onClickInformation={props.onTrackInfoClick}
-            onDrop={handleTrackDrop}
-            onDragEnd={handleTrackDragEnd}
-          />
-        ))}
-        <div ref={observedRef} />
+        {loading ? (
+          <Loader />
+        ) : savedTracks === undefined ? (
+          <EmptyTrackComponent dragType="saved-track" onDrop={handleTrackDrop} />
+        ) : (
+          <>
+            {savedTracks.map((track, index) => (
+              <TrackComponent
+                key={track.id}
+                track={track}
+                index={index}
+                disabled={moving}
+                dragType="saved-track"
+                playlistId={undefined}
+                onClickInformation={props.onTrackInfoClick}
+                onDrop={handleTrackDrop}
+                onDragEnd={handleTrackDragEnd}
+              />
+            ))}
+            <div ref={observedRef} />
+          </>
+        )}
       </div>
     </div>
   );
