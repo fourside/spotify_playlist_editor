@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style, styleVariants } from "@vanilla-extract/css";
 import { Colors } from "../../../styles/colors.css";
 
 const base = style([
@@ -18,44 +18,44 @@ const base = style([
   },
 ]);
 
-export const primary = style([
-  base,
-  {
-    backgroundColor: Colors.blue800,
-    color: Colors.white,
-    ":hover": {
-      backgroundColor: Colors.blue600,
+export const buttons = styleVariants({
+  primary: [
+    base,
+    {
+      backgroundColor: Colors.blue800,
+      color: Colors.white,
+      ":hover": {
+        backgroundColor: Colors.blue600,
+      },
+      ":focus": {
+        boxShadow: "0 0 0 .1rem rgb(33,115,215,.5)", // blue800
+      },
     },
-    ":focus": {
-      boxShadow: "0 0 0 .1rem rgb(33,115,215,.5)", // blue800
+  ],
+  tertiary: [
+    base,
+    {
+      backgroundColor: Colors.white,
+      color: Colors.black300,
+      ":hover": {
+        backgroundColor: Colors.black20,
+      },
+      ":focus": {
+        boxShadow: "0 0 0 .1rem rgb(97,98,99,.5)", // black300
+      },
     },
-  },
-]);
-
-export const tertiary = style([
-  base,
-  {
-    backgroundColor: Colors.white,
-    color: Colors.black300,
-    ":hover": {
-      backgroundColor: Colors.black20,
+  ],
+  danger: [
+    base,
+    {
+      backgroundColor: Colors.red600,
+      color: Colors.white,
+      ":hover": {
+        backgroundColor: Colors.red300,
+      },
+      ":focus": {
+        boxShadow: "0 0 0 .1rem rgb(208,11,11,.5)", // red600
+      },
     },
-    ":focus": {
-      boxShadow: "0 0 0 .1rem rgb(97,98,99,.5)", // black300
-    },
-  },
-]);
-
-export const danger = style([
-  base,
-  {
-    backgroundColor: Colors.red600,
-    color: Colors.white,
-    ":hover": {
-      backgroundColor: Colors.red300,
-    },
-    ":focus": {
-      boxShadow: "0 0 0 .1rem rgb(208,11,11,.5)", // red600
-    },
-  },
-]);
+  ],
+});
