@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { danger, primary, tertiary } from "./button.css";
+import { buttons } from "./button.css";
 
 type Props = {
   buttonType: "primary" | "tertiary" | "danger";
@@ -10,10 +10,9 @@ type Props = {
 };
 
 export const Button: FC<Props> = (props) => {
-  const buttonClass = props.buttonType === "primary" ? primary : props.buttonType === "tertiary" ? tertiary : danger;
   return (
     <button
-      className={`${buttonClass} ${props.className}`}
+      className={`${buttons[props.buttonType]} ${props.className}`}
       onClick={props.onClick}
       disabled={props.disabled}
       type="button"
