@@ -1,9 +1,10 @@
 {
   "extends": ["next", "next/core-web-vitals", "prettier", "plugin:testing-library/react"],
-  "plugins": ["prettier", "testing-library"],
+  "plugins": ["prettier", "testing-library", "import-only-from-index"],
   "rules": {
     "prettier/prettier": "error",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "import-only-from-index/import-only-from-index": ["error", ["src/components"]]
   },
   "overrides": [
     {
