@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { CloseIcon } from "../../icons";
+import { CloseIcon } from "../icons";
 import { backdrop, closeIcon, content } from "./modal.css";
 
 type Props = {

@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { Editor } from "../components/page/editor/editor";
+import { Editor } from "../components/page/editor";
 
 const EditorPage: NextPage = () => {
   return (

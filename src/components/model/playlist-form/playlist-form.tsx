@@ -1,6 +1,6 @@
 import { FormEvent, useCallback, useEffect, useState, VFC } from "react";
-import { Button } from "../../ui/button/button";
-import { Input } from "../../ui/input/input";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
 import { container, label, submitError, validationError } from "./playlist-form.css";
 
 type Props = {

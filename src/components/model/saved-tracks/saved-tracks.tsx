@@ -2,10 +2,10 @@ import Link from "next/link";
 import { useCallback, useState, VFC } from "react";
 import { useIntersectionObserver } from "../../../hooks/use-intersection-observer";
 import { Track } from "../../../model";
-import { HeartIcon } from "../../icons";
-import { Loader } from "../../ui/loader/loader";
-import { EmptyTrackComponent } from "../empty-track/empty-track";
-import { TrackComponent } from "../track/track";
+import { HeartIcon } from "../../ui/icons";
+import { Loader } from "../../ui/loader";
+import { EmptyTrackComponent } from "../empty-track";
+import { TrackComponent } from "../track";
 import { useSavedTracks } from "./saved-tracks-hooks";
 import { container, title, tracksContainer } from "./saved-tracks.css";
 

@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Index } from "../components/page/index/index";
+import { Index } from "../components/page/index";
 
+const hoge = 1;
 const IndexPage: NextPage = () => {
   return (
     <>

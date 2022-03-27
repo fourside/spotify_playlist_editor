@@ -1,8 +1,8 @@
 import { VFC } from "react";
 import { useDrop } from "react-dnd";
 import { Track } from "../../../model";
-import { CautionIcon } from "../../icons";
-import { DragType } from "../track/track";
+import { CautionIcon } from "../../ui/icons";
+import { DragType } from "../track";
 import { container, dropOver } from "./empty-track.css";
 
 type Props = {

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { chevron, content, header, item, root, trigger } from "./accordion.css";
-import { ChevronDownIcon } from "../../icons";
+import { ChevronDownIcon } from "../icons";
 
 type Props = {
   title: string;

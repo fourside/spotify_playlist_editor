@@ -2,7 +2,7 @@ import { VFC } from "react";
 import { msToTime } from "../../../lib/date-format";
 import { Track } from "../../../model";
 import { NormalText, SmallTitle } from "../../../styles/fonts.css";
-import { PopularityBar } from "../popularity-bar/popularity-bar";
+import { PopularityBar } from "../popularity-bar";
 import { body, bodyLeft, bodyRight, container, header, label } from "./track-detail.css";
 
 type Props = {
