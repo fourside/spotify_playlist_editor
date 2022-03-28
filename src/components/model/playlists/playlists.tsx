@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useCallback, useState, VFC } from "react";
 import { Track } from "../../../model";
-import { PlusIcon } from "../../icons";
-import { Button } from "../../ui/button/button";
-import { Loader } from "../../ui/loader/loader";
-import { Modal } from "../../ui/modal/modal";
-import { PlaylistForm } from "../playlist-form/playlist-form";
-import { PlaylistComponent } from "../playlist/playlist";
+import { PlusIcon } from "../../ui/icons";
+import { Button } from "../../ui/button";
+import { Loader } from "../../ui/loader";
+import { Modal } from "../../ui/modal";
+import { PlaylistForm } from "../playlist-form";
+import { PlaylistComponent } from "../playlist";
 import { useMyPlaylists } from "./playlists-hooks";
 import { container, createButton, footer, modalContainer, playlistsContainer, title } from "./playlists.css";
 

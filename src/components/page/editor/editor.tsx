@@ -1,14 +1,14 @@
-import { useCallback, useMemo, useState, VFC } from "react";
+import { useCallback, useState, VFC } from "react";
 import { pageContainer, editorContainer } from "./editor.css";
 import { Track } from "../../../model";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { TrackDetailComponent } from "../../model/track-detail/track-detail";
-import { Modal } from "../../ui/modal/modal";
-import { HeaderComponent } from "../../ui/header/header";
+import { TrackDetailComponent } from "../../model/track-detail";
+import { Modal } from "../../ui/modal";
+import { HeaderComponent } from "../../ui/header";
 import { useSession } from "next-auth/react";
-import { SavedTracksComponent } from "../../model/saved-tracks/saved-tracks";
-import { PlaylistsComponent } from "../../model/playlists/playlists";
+import { SavedTracksComponent } from "../../model/saved-tracks";
+import { PlaylistsComponent } from "../../model/playlists";
 
 export const Editor: VFC = () => {
   const { data: session } = useSession();

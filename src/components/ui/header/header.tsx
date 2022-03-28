@@ -1,6 +1,6 @@
 import { useCallback, VFC } from "react";
 import { signOut } from "next-auth/react";
-import { SignOutIcon, UserIcon } from "../../icons";
+import { SignOutIcon, UserIcon } from "../icons";
 import { container, menuItem, menuItemAnchor, title } from "./header.css";
 
 type Props = {

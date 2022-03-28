@@ -3,7 +3,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { Track, Playlist } from "../../../model";
 import { FontColors } from "../../../styles/colors.css";
 import { NormalText, SmallText } from "../../../styles/fonts.css";
-import { InfoIcon } from "../../icons";
+import { InfoIcon } from "../../ui/icons";
 import {
   dropBottomArea,
   dropTopArea,

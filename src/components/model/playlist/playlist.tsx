@@ -1,12 +1,12 @@
 import { useCallback, useState, VFC } from "react";
 import { Playlist, Track } from "../../../model";
-import { Accordion } from "../../ui/accordion/accordion";
-import { PlaylistIcon } from "../../icons";
-import { Loader } from "../../ui/loader/loader";
-import { TrackComponent } from "../track/track";
+import { Accordion } from "../../ui/accordion";
+import { PlaylistIcon } from "../../ui/icons";
+import { Loader } from "../../ui/loader";
+import { TrackComponent } from "../track";
 import { usePlaylistTracks } from "./playlist-hooks";
 import { header, headerTitle, loaderContainer, tracksContainer } from "./playlist.css";
-import { EmptyTrackComponent } from "../empty-track/empty-track";
+import { EmptyTrackComponent } from "../empty-track";
 
 type Props = {
   playlist: Playlist;
