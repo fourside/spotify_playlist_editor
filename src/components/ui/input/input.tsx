@@ -1,12 +1,7 @@
-import { ChangeEvent, useCallback, VFC } from "react";
+import { ChangeEvent, ComponentProps, useCallback, VFC } from "react";
 import { container } from "./input.css";
 
-type Props = {
-  value: string | undefined;
-  id?: string;
-  disabled?: boolean;
-  placeholder?: string;
-  autoFocus?: boolean;
+type Props = Omit<ComponentProps<"input">, "className"> & {
   onChange: (value: string) => void;
 };
 
@@ -19,16 +14,5 @@ export const Input: VFC<Props> = (props) => {
     [onChange]
   );
 
-  return (
-    <input
-      type="text"
-      value={props.value}
-      onChange={handleChange}
-      disabled={props.disabled}
-      id={props.id}
-      placeholder={props.placeholder}
-      autoFocus={props.autoFocus}
-      className={container}
-    />
-  );
+  return <input {...props} type="text" onChange={handleChange} className={container} />;
 };

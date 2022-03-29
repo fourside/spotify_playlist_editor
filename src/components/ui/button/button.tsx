@@ -1,12 +1,9 @@
-import { FC } from "react";
+import { ComponentProps, FC } from "react";
 import { buttons } from "./button.css";
 
-type Props = {
+type Props = ComponentProps<"button"> & {
   buttonType: "primary" | "tertiary" | "danger";
   children: React.ReactNode;
-  disabled?: boolean;
-  className?: string;
-  onClick: () => void;
 };
 
 export const Button: FC<Props> = (props) => {
