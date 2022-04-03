@@ -1,6 +1,6 @@
 import { useCallback, VFC } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { Track, Playlist } from "../../../model";
+import { Track } from "../../../model";
 import { FontColors } from "../../../styles/colors.css";
 import { NormalText, SmallText } from "../../../styles/fonts.css";
 import { InfoIcon } from "../../ui/icons";
@@ -26,7 +26,6 @@ type TrackComponentProps = {
   dragType: DragType;
   index: number;
   disabled: boolean;
-  playlistId: string | undefined;
   onClickInformation: (track: Track) => void;
   onDrop: (track: Track, position: number) => void;
   onDragEnd: (track: Track) => void;
@@ -77,6 +76,7 @@ export const TrackComponent: VFC<TrackComponentProps> = (props) => {
        ${dragCollected.isDragging && dragging}
        ${dropTopCollected.isOver && overTop} ${dropBottomCollected.isOver && overBottom} `}
       ref={dragRef}
+      role="listitem"
     >
       <div className={dropTopArea} ref={dropTopRef} />
       <div className={innerContainer}>
@@ -87,9 +87,9 @@ export const TrackComponent: VFC<TrackComponentProps> = (props) => {
           <div className={NormalText}>{props.track.name}</div>
           <div className={`${SmallText} ${FontColors.black500}`}>{props.track.artistName}</div>
         </div>
-        <div className={information} onClick={handleInfoClick}>
+        <button className={information} onClick={handleInfoClick}>
           <InfoIcon className={informationIcon} />
-        </div>
+        </button>
       </div>
       <div className={dropBottomArea} ref={dropBottomRef} />
     </div>

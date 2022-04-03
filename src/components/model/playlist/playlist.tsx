@@ -62,7 +62,6 @@ export const PlaylistComponent: VFC<Props> = (props) => {
               index={index}
               disabled={moving}
               dragType="playlist-track"
-              playlistId={props.playlist.id}
               onClickInformation={props.onClickInformation}
               onDrop={handleTrackDrop}
               onDragEnd={handleTrackDragEnd}
