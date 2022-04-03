@@ -5,6 +5,7 @@ import { backdrop, closeIcon, content } from "./modal.css";
 
 type Props = {
   open: boolean;
+  children: React.ReactNode;
   onClose: () => void;
 };
 
@@ -26,7 +27,7 @@ export const Modal: FC<Props> = (props) => {
   return (
     <Dialog.Root open={props.open}>
       <Dialog.Portal>
-        <Dialog.Overlay className={backdrop} onClick={props.onClose} />
+        <Dialog.Overlay className={backdrop} onClick={props.onClose} data-testid="backdrop" />
         <Dialog.Content className={content}>
           <Dialog.Close className={closeIcon} onClick={props.onClose}>
             <CloseIcon />
