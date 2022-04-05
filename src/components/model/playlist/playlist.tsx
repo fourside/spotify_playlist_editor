@@ -55,18 +55,20 @@ export const PlaylistComponent: VFC<Props> = (props) => {
         ) : playlistTracks?.length === 0 ? (
           <EmptyTrackComponent dragType="playlist-track" onDrop={handleTrackDrop} />
         ) : (
-          playlistTracks?.map((track, index) => (
-            <TrackComponent
-              key={track.id}
-              track={track}
-              index={index}
-              disabled={moving}
-              dragType="playlist-track"
-              onClickInformation={props.onClickInformation}
-              onDrop={handleTrackDrop}
-              onDragEnd={handleTrackDragEnd}
-            />
-          ))
+          <div role="list">
+            {playlistTracks?.map((track, index) => (
+              <TrackComponent
+                key={track.id}
+                track={track}
+                index={index}
+                disabled={moving}
+                dragType="playlist-track"
+                onClickInformation={props.onClickInformation}
+                onDrop={handleTrackDrop}
+                onDragEnd={handleTrackDragEnd}
+              />
+            ))}
+          </div>
         )}
       </div>
     </Accordion>
