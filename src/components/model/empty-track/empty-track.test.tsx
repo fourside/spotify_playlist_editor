@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { dragAndDrop } from "../../../lib/test-helper";
 import { Track } from "../../../model";
 import { TrackComponent } from "../track";
 import { EmptyTrackComponent } from "./empty-track";
@@ -120,11 +121,3 @@ describe("empty-track", () => {
     expect(onDrop).not.toHaveBeenCalled();
   });
 });
-
-function dragAndDrop(src: Element, dst: Element) {
-  fireEvent.dragStart(src);
-  fireEvent.dragEnter(dst);
-  fireEvent.drop(dst);
-  fireEvent.dragLeave(dst);
-  fireEvent.dragEnd(src);
-}

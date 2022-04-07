@@ -1,10 +1,11 @@
 import assert from "assert";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Track } from "../../../model";
 import { TrackComponent } from "./track";
+import { dragAndDrop } from "../../../lib/test-helper";
 
 describe("track", () => {
   const droppedTrack: Track = {
@@ -360,11 +361,3 @@ describe("track", () => {
     expect(onClickInformation).toHaveBeenCalled();
   });
 });
-
-function dragAndDrop(src: Element, dst: Element) {
-  fireEvent.dragStart(src);
-  fireEvent.dragEnter(dst);
-  fireEvent.drop(dst);
-  fireEvent.dragLeave(dst);
-  fireEvent.dragEnd(src);
-}
