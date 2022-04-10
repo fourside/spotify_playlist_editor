@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { Playlist, PlaylistResponse } from "../../model";
+import { Playlist, PlaylistsResponse } from "../../model";
 import { getMyPlaylists } from "../../spotify/client";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<PlaylistResponse | undefined>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<PlaylistsResponse | undefined>) {
   const session = await getSession({ req });
   if (session === null) {
     console.log("No session");

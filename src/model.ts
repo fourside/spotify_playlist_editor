@@ -12,7 +12,7 @@ export type Track = {
   uri: string;
 };
 
-export type PlaylistResponse = {
+export type PlaylistsResponse = {
   playlists: Playlist[];
 };
 

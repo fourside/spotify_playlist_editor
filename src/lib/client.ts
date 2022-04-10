@@ -1,4 +1,4 @@
-import { Playlist, PlaylistResponse, PlaylistTrackResponse, SavedTrackResponse } from "../model";
+import { Playlist, PlaylistsResponse, PlaylistTrackResponse, SavedTrackResponse } from "../model";
 import { myPlaylistsResponseJson, playlistJson, playlistTrackResponseJson, savedTrackResponseJson } from "../schema";
 
 export async function getSavedTracks(_key: string, offset: number): Promise<SavedTrackResponse> {
@@ -12,7 +12,7 @@ export async function getSavedTracks(_key: string, offset: number): Promise<Save
   return savedTrackResponseJson.parse(json);
 }
 
-export async function getMyPlaylists(): Promise<PlaylistResponse> {
+export async function getMyPlaylists(): Promise<PlaylistsResponse> {
   const response = await fetch(`/api/my-playlists`, {
     credentials: "include",
   });

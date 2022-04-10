@@ -47,7 +47,7 @@ export const PlaylistsComponent: VFC<Props> = (props) => {
   }
 
   if (error !== undefined) {
-    console.error(error);
+    // console.error(error);
     return (
       <div>
         <h1>Error</h1>
@@ -64,7 +64,7 @@ export const PlaylistsComponent: VFC<Props> = (props) => {
   return (
     <div className={container}>
       <div className={title}>Playlists</div>
-      <div className={playlistsContainer}>
+      <div className={playlistsContainer} role="list">
         {myPlaylists?.map((playlist) => (
           <PlaylistComponent key={playlist.id} playlist={playlist} onClickInformation={props.onTrackInfoClick} />
         ))}

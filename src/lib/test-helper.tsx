@@ -11,6 +11,5 @@ export function dragAndDrop(src: Element, dst: Element) {
 }
 
 export const SwrNoCacheWrapper: FC = (props) => {
-  // eslint-disable-next-line testing-library/no-node-access
   return <SWRConfig value={{ provider: () => new Map() }}>{props.children}</SWRConfig>;
 };
