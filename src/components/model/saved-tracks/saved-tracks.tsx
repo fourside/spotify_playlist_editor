@@ -52,7 +52,6 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
   );
 
   if (error !== undefined) {
-    console.error(error);
     return (
       <div>
         <h1>Error</h1>
@@ -75,22 +74,24 @@ export const SavedTracksComponent: VFC<Props> = (props) => {
       <div className={tracksContainer}>
         {loading ? (
           <Loader />
-        ) : savedTracks === undefined ? (
+        ) : savedTracks === undefined || savedTracks.length === 0 ? (
           <EmptyTrackComponent dragType="saved-track" onDrop={handleTrackDrop} />
         ) : (
           <>
-            {savedTracks.map((track, index) => (
-              <TrackComponent
-                key={track.id}
-                track={track}
-                index={index}
-                disabled={moving}
-                dragType="saved-track"
-                onClickInformation={props.onTrackInfoClick}
-                onDrop={handleTrackDrop}
-                onDragEnd={handleTrackDragEnd}
-              />
-            ))}
+            <div role="list">
+              {savedTracks.map((track, index) => (
+                <TrackComponent
+                  key={track.id}
+                  track={track}
+                  index={index}
+                  disabled={moving}
+                  dragType="saved-track"
+                  onClickInformation={props.onTrackInfoClick}
+                  onDrop={handleTrackDrop}
+                  onDragEnd={handleTrackDragEnd}
+                />
+              ))}
+            </div>
             <div ref={observedRef} />
           </>
         )}

@@ -3,12 +3,12 @@ import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 import { factory, primaryKey, drop } from "@mswjs/data";
 import { setupServer } from "msw/node";
+import { SavedTrackResponse, Track } from "../../../model";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Playlist, PlaylistTrackResponse, Track } from "../../../model";
-import { PlaylistComponent } from "./playlist";
-import { EmptyTrackComponent } from "../empty-track";
+import { SavedTracksComponent } from ".";
 import { dragAndDrop, SwrNoCacheWrapper } from "../../../lib/test-helper";
+import { EmptyTrackComponent } from "../empty-track";
 import { TrackComponent } from "../track";
 import assert from "assert";
 
@@ -42,38 +42,39 @@ const fixtureTracks: Track[] = [
   },
 ];
 
-describe("playlist", () => {
+describe("saved tracks", () => {
   let db: ReturnType<typeof factory>;
+
   const server = setupServer(
-    rest.get<any, any, PlaylistTrackResponse>("/api/playlists/:playlistId", (req, res, ctx) => {
+    rest.get<any, any, SavedTrackResponse>("/api/saved-tracks", (req, res, ctx) => {
+      const offset = req.params.offset ? parseInt(req.params.offset, 10) : 0;
       return res(ctx.json({ tracks: db.track.getAll() }));
     }),
-    rest.post<string>("/api/playlists/:playlistId/tracks", (req, res, ctx) => {
+    rest.put<string>("/api/saved-tracks", (req, res, ctx) => {
       const json = JSON.parse(req.body);
-      if (json.trackUri === undefined || json.position === undefined) {
+      if (json.trackId === undefined) {
         return res(ctx.status(400));
       }
-      const id = (db.track.getAll().length + 1).toString();
       db.track.create({
-        id,
-        name: `track-${id}`,
-        artistName: `artist-${id}`,
-        albumImageUrl: `example.com/${id}`,
+        id: json.trackId,
+        name: `track-${json.trackId}`,
+        artistName: `artist-${json.trackId}`,
+        albumImageUrl: `example.com/${json.trackId}`,
         durationMs: 0,
         popularity: 0,
-        uri: json.trackUri,
+        uri: json.trackId,
       });
       return res(ctx.status(201));
     }),
-    rest.delete<string>("/api/playlists/:playlistId/tracks", (req, res, ctx) => {
+    rest.delete<string>("/api/saved-tracks", (req, res, ctx) => {
       const json = JSON.parse(req.body);
-      if (json.trackUri === undefined) {
+      if (json.trackId === undefined) {
         return res(ctx.status(400));
       }
       const result = db.track.delete({
         where: {
-          uri: {
-            equals: json.trackUri,
+          id: {
+            equals: json.trackId,
           },
         },
       });
@@ -97,6 +98,12 @@ describe("playlist", () => {
       },
     });
     server.listen();
+
+    const intersectionObserverMock = () => ({
+      observe: () => null,
+      disconnect: () => undefined,
+    });
+    window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
   });
   beforeEach(() => {
     fixtureTracks.forEach((track) => db.track.create(track));
@@ -109,19 +116,15 @@ describe("playlist", () => {
     server.close();
   });
 
-  test("show playlist tracks", async () => {
-    // arrange
-    const playlist: Playlist = {
-      id: "42",
-      name: "Normal Playlist",
-    };
-    // act
+  test("show saved tracks", async () => {
+    // arrange & act
     render(
       <DndProvider backend={HTML5Backend}>
-        <PlaylistComponent playlist={playlist} onClickInformation={() => {}} />
+        <SwrNoCacheWrapper>
+          <SavedTracksComponent onTrackInfoClick={() => {}} />
+        </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getByRole("button"));
     // assert
     expect(screen.queryByRole("list")).not.toBeInTheDocument(); // loading
     const list = await screen.findByRole("list");
@@ -129,24 +132,19 @@ describe("playlist", () => {
     expect(list.childNodes.length).toBe(3);
   });
 
-  test("drag and drop a playlist track to saved track, then remove it from playlist", async () => {
+  test("drag and drop a saved track to playlist track, then remove it from saved tracks", async () => {
     // arrange
-    const playlist: Playlist = {
-      id: "42",
-      name: "Normal Playlist",
-    };
     const onDrop = jest.fn();
     render(
       <DndProvider backend={HTML5Backend}>
-        <EmptyTrackComponent dragType="saved-track" onDrop={onDrop} />
+        <EmptyTrackComponent dragType="playlist-track" onDrop={onDrop} />
         <SwrNoCacheWrapper>
-          <PlaylistComponent playlist={playlist} onClickInformation={() => {}} />
+          <SavedTracksComponent onTrackInfoClick={() => {}} />
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getByRole("button"));
     const list = await screen.findByRole("list");
-    const targetTrack = list.childNodes[1];
+    const targetTrack = list.childNodes[1]; // get second one
     const listItems = screen.getAllByRole("listitem");
     const emptyTrack = listItems[0];
     // act
@@ -158,27 +156,23 @@ describe("playlist", () => {
     });
   });
 
-  test("drag and drop a saved track to playlist, then add it to playlist", async () => {
+  test("drag and drop a playlist track to saved track, then add it to saved tracks", async () => {
     // arrange
-    const playlist: Playlist = {
-      id: "42",
-      name: "Normal Playlist",
-    };
-    const savedTrack: Track = {
+    const playlistTrack: Track = {
       id: "100",
-      name: "saved track",
-      artistName: "saved track artist",
+      name: "playlist track",
+      artistName: "playlist track artist",
       albumImageUrl: "example.com/album",
       durationMs: 100,
       popularity: 50,
-      uri: "example.com/saved",
+      uri: "example.com/playlist-track",
     };
     const onDragEnd = jest.fn();
     render(
       <DndProvider backend={HTML5Backend}>
         <TrackComponent
-          track={savedTrack}
-          dragType="saved-track"
+          track={playlistTrack}
+          dragType="playlist-track"
           index={0}
           disabled={false}
           onDrop={() => {}}
@@ -186,23 +180,22 @@ describe("playlist", () => {
           onClickInformation={() => {}}
         />
         <SwrNoCacheWrapper>
-          <PlaylistComponent playlist={playlist} onClickInformation={() => {}} />
+          <SavedTracksComponent onTrackInfoClick={() => {}} />
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[1]);
-    const list = await screen.findByRole("list");
-    const targetTrackElement = list.childNodes[1];
-    // eslint-disable-next-line testing-library/no-node-access
-    const targetDroppedElement = targetTrackElement.firstChild;
-    assert(targetDroppedElement !== null);
     const listItems = screen.getAllByRole("listitem");
-    const savedTrackElement = listItems[0];
+    const playlistTrackElement = listItems[0];
+
+    const list = await screen.findByRole("list");
+    const targetTrack = list.childNodes[1]; // get second one
+    const targetTrackElement = targetTrack.firstChild;
+    assert(targetTrackElement instanceof Element);
     // act
-    dragAndDrop(savedTrackElement, targetDroppedElement as Element);
+    dragAndDrop(playlistTrackElement, targetTrackElement);
     // assert
     expect(screen.getByRole("list").childNodes.length).toBe(3);
-    expect(onDragEnd).toHaveBeenCalledWith(savedTrack);
+    expect(onDragEnd).toHaveBeenCalledWith(playlistTrack);
     await waitFor(() => {
       expect(screen.getByRole("list").childNodes.length).toBe(4);
     });
@@ -211,22 +204,17 @@ describe("playlist", () => {
   test("zero track in playlist shows empty track", async () => {
     // arrange & act
     server.use(
-      rest.get<any, any, PlaylistTrackResponse>("/api/playlists/:playlistId", (req, res, ctx) => {
+      rest.get<any, any, SavedTrackResponse>("/api/saved-tracks", (req, res, ctx) => {
         return res(ctx.json({ tracks: [] }));
       })
     );
-    const playlist: Playlist = {
-      id: "42",
-      name: "Normal Playlist",
-    };
     render(
       <DndProvider backend={HTML5Backend}>
         <SwrNoCacheWrapper>
-          <PlaylistComponent playlist={playlist} onClickInformation={() => {}} />
+          <SavedTracksComponent onTrackInfoClick={() => {}} />
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[0]);
     // assert
     expect(await screen.findByText("No tracks")).toBeInTheDocument();
   });
@@ -234,45 +222,35 @@ describe("playlist", () => {
   test("error", async () => {
     // arrange & act
     server.use(
-      rest.get<any, any, PlaylistTrackResponse>("/api/playlists/:playlistId", (req, res, ctx) => {
+      rest.get<any, any, SavedTrackResponse>("/api/saved-tracks", (req, res, ctx) => {
         return res(ctx.status(400));
       })
     );
-    const playlist: Playlist = {
-      id: "42",
-      name: "Normal Playlist",
-    };
     render(
       <DndProvider backend={HTML5Backend}>
         <SwrNoCacheWrapper>
-          <PlaylistComponent playlist={playlist} onClickInformation={() => {}} />
+          <SavedTracksComponent onTrackInfoClick={() => {}} />
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[0]);
     // assert
     expect(await screen.findByText(/error: /)).toBeInTheDocument();
   });
 
   test("click button fire onClickInformation", async () => {
     // arrange
-    const playlist: Playlist = {
-      id: "42",
-      name: "Normal Playlist",
-    };
-    const onClickInformation = jest.fn();
+    const onTrackInfoClick = jest.fn();
     render(
       <DndProvider backend={HTML5Backend}>
         <SwrNoCacheWrapper>
-          <PlaylistComponent playlist={playlist} onClickInformation={onClickInformation} />
+          <SavedTracksComponent onTrackInfoClick={onTrackInfoClick} />
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[0]);
     await screen.findByRole("list");
     // act
-    userEvent.click(screen.getAllByRole("button")[2]);
+    userEvent.click(screen.getAllByRole("button")[2]); // third one
     // assert
-    expect(onClickInformation).toHaveBeenCalledWith(fixtureTracks[1]);
+    expect(onTrackInfoClick).toHaveBeenCalledWith(fixtureTracks[2]);
   });
 });
