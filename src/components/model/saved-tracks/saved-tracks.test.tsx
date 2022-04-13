@@ -189,6 +189,7 @@ describe("saved tracks", () => {
 
     const list = await screen.findByRole("list");
     const targetTrack = list.childNodes[1]; // get second one
+    // eslint-disable-next-line testing-library/no-node-access
     const targetTrackElement = targetTrack.firstChild;
     assert(targetTrackElement instanceof Element);
     // act

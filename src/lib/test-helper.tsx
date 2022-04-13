@@ -10,6 +10,6 @@ export function dragAndDrop(src: Element, dst: Element) {
   fireEvent.dragEnd(src);
 }
 
-export const SwrNoCacheWrapper: FC = (props) => {
-  return <SWRConfig value={{ provider: () => new Map() }}>{props.children}</SWRConfig>;
+export const SwrNoCacheWrapper: FC = ({ children }) => {
+  return <SWRConfig value={{ provider: () => new Map() }}>{children}</SWRConfig>;
 };

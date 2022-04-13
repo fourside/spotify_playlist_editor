@@ -87,6 +87,7 @@ describe("playlists", () => {
       </DndProvider>
     );
     const playlistComponentList = await screen.findByRole("list");
+    // eslint-disable-next-line testing-library/no-node-access
     const firstPlaylist = playlistComponentList.children[0];
     assert(firstPlaylist instanceof HTMLElement);
     const accordionButton = within(firstPlaylist).getByRole("button");
@@ -130,7 +131,7 @@ describe("playlists", () => {
     // act
     userEvent.type(within(modal).getByLabelText("playlist name"), "playlist4{enter}");
     // assert
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByRole("list").childNodes.length).toBe(4);
     });
   });
@@ -150,7 +151,7 @@ describe("playlists", () => {
       </DndProvider>
     );
     // assert
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText(/my playlists error: /)).toBeInTheDocument();
     });
   });
