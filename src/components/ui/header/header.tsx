@@ -10,7 +10,7 @@ type Props = {
 export const HeaderComponent: VFC<Props> = (props) => {
   const handleSignOutClick = useCallback(async () => {
     await signOut();
-    window.location.href = "/";
+    window.location.replace("/");
   }, []);
 
   return (

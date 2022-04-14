@@ -23,7 +23,7 @@ export const EmptyTrackComponent: VFC<Props> = (props) => {
   });
 
   return (
-    <div className={`${container} ${collected.isOver && dropOver}`} ref={dropRef}>
+    <div className={`${container} ${collected.isOver && dropOver}`} ref={dropRef} role="listitem">
       <CautionIcon />
       No tracks
     </div>

@@ -69,6 +69,7 @@ export const trackName = style({
 });
 
 export const information = style({
+  all: "unset",
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
