@@ -1,4 +1,4 @@
-import { useCallback, useState, VFC } from "react";
+import { useCallback, useState, FC } from "react";
 import { pageContainer, editorContainer } from "./editor.css";
 import { Track } from "../../../model";
 import { DndProvider } from "react-dnd";
@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { SavedTracksComponent } from "../../model/saved-tracks";
 import { PlaylistsComponent } from "../../model/playlists";
 
-export const Editor: VFC = () => {
+export const Editor: FC = () => {
   const { data: session } = useSession();
   const [trackDetail, setTrackDetail] = useState<Track>();
 

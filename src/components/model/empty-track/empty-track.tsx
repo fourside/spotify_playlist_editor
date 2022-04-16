@@ -1,4 +1,4 @@
-import { VFC } from "react";
+import { FC } from "react";
 import { useDrop } from "react-dnd";
 import { Track } from "../../../model";
 import { CautionIcon } from "../../ui/icons";
@@ -10,7 +10,7 @@ type Props = {
   onDrop: (track: Track, position: number) => void;
 };
 
-export const EmptyTrackComponent: VFC<Props> = (props) => {
+export const EmptyTrackComponent: FC<Props> = (props) => {
   const { onDrop } = props;
   const acceptDragType = props.dragType === "playlist-track" ? "saved-track" : "playlist-track";
 
