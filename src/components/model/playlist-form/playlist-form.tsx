@@ -15,7 +15,7 @@ export const PlaylistForm: VFC<Props> = (props) => {
   const [valid, setValid] = useState(false);
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
 
-  const handleNameChange = useCallback((newName) => {
+  const handleNameChange = useCallback((newName: string) => {
     setSubmitErrorMessage(undefined);
     if (newName === "") {
       setName(undefined);
