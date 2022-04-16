@@ -10,6 +10,7 @@ const customJestConfig = {
     "\\.tsx?$": ["babel-jest", { configFile: "./.babelrc" }],
   },
   testEnvironment: "jest-environment-jsdom",
+  transformIgnorePatterns: ["/node_modules/(?!react-dnd)/"],
 };
 
 module.exports = customJestConfig;
