@@ -69,5 +69,10 @@
     "printWidth": 120,
     "tabWidth": 2,
     "trailingComma": "es5"
+  },
+  "nextBundleAnalysis": {
+    "budget": 358400,
+    "budgetPercentIncreaseRed": 20,
+    "showDetails": true
   }
 }
