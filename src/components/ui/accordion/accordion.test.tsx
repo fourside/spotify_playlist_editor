@@ -22,7 +22,7 @@ describe("accordion", () => {
       </Accordion>
     );
     // act
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // assert
     expect(screen.getByText("accordion content")).toBeInTheDocument();
   });
@@ -34,9 +34,9 @@ describe("accordion", () => {
         <div>accordion content</div>
       </Accordion>
     );
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // act
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // assert
     expect(screen.queryByTestId("accordion content")).not.toBeInTheDocument();
   });
@@ -50,7 +50,7 @@ describe("accordion", () => {
     );
     // assert
     expect(screen.getByText("accordion header")).toBeInTheDocument();
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     expect(screen.getByText("accordion header")).toBeInTheDocument();
   });
 });

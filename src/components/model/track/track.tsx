@@ -1,4 +1,4 @@
-import { useCallback, VFC } from "react";
+import { useCallback, FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Track } from "../../../model";
 import { FontColors } from "../../../styles/colors.css";
@@ -31,7 +31,7 @@ type TrackComponentProps = {
   onDragEnd: (track: Track) => void;
 };
 
-export const TrackComponent: VFC<TrackComponentProps> = (props) => {
+export const TrackComponent: FC<TrackComponentProps> = (props) => {
   const { onClickInformation, onDrop, onDragEnd } = props;
 
   const [dragCollected, dragRef] = useDrag({

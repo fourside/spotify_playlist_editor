@@ -1,4 +1,4 @@
-import { useCallback, VFC } from "react";
+import { useCallback, FC } from "react";
 import { signOut } from "next-auth/react";
 import { SignOutIcon, UserIcon } from "../icons";
 import { container, menuItem, menuItemAnchor, title } from "./header.css";
@@ -7,7 +7,7 @@ type Props = {
   userName: string;
 };
 
-export const HeaderComponent: VFC<Props> = (props) => {
+export const HeaderComponent: FC<Props> = (props) => {
   const handleSignOutClick = useCallback(async () => {
     await signOut();
     window.location.replace("/");

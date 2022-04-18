@@ -26,7 +26,7 @@ describe("header", () => {
     jest.spyOn(nextAuthReact, "signOut").mockImplementation(signOut);
     render(<HeaderComponent userName="test user" />);
     // act
-    userEvent.click(screen.getByText("sign out"));
+    await userEvent.click(screen.getByText("sign out"));
     // assert
     // await Promise.resolve();
     await flashPromise();

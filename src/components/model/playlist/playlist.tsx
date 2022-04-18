@@ -1,4 +1,4 @@
-import { useCallback, useState, VFC } from "react";
+import { useCallback, useState, FC } from "react";
 import { Playlist, Track } from "../../../model";
 import { Accordion } from "../../ui/accordion";
 import { PlaylistIcon } from "../../ui/icons";
@@ -13,7 +13,7 @@ type Props = {
   onClickInformation: (track: Track) => void;
 };
 
-export const PlaylistComponent: VFC<Props> = (props) => {
+export const PlaylistComponent: FC<Props> = (props) => {
   const { playlistTracks, error, loading, onAdd, onRemove } = usePlaylistTracks(props.playlist.id);
   const [moving, setMoving] = useState(false);
 
@@ -79,7 +79,7 @@ type HeaderProps = {
   title: string;
 };
 
-const Header: VFC<HeaderProps> = (props) => {
+const Header: FC<HeaderProps> = (props) => {
   return (
     <div className={header}>
       <PlaylistIcon />

@@ -1,4 +1,4 @@
-import { VFC } from "react";
+import { FC } from "react";
 import { msToTime } from "../../../lib/date-format";
 import { Track } from "../../../model";
 import { NormalText, SmallTitle } from "../../../styles/fonts.css";
@@ -9,7 +9,7 @@ type Props = {
   track: Track;
 };
 
-export const TrackDetailComponent: VFC<Props> = (props) => {
+export const TrackDetailComponent: FC<Props> = (props) => {
   return (
     <div className={container}>
       <div className={header}>{props.track.name}</div>

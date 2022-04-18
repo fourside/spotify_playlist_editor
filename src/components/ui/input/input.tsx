@@ -1,11 +1,11 @@
-import { ChangeEvent, ComponentProps, useCallback, VFC } from "react";
+import { ChangeEvent, ComponentProps, useCallback, FC } from "react";
 import { container } from "./input.css";
 
-type Props = Omit<ComponentProps<"input">, "className"> & {
+type Props = Omit<ComponentProps<"input">, "className" | "onChange"> & {
   onChange: (value: string) => void;
 };
 
-export const Input: VFC<Props> = (props) => {
+export const Input: FC<Props> = (props) => {
   const { onChange } = props;
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

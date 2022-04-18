@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useState, VFC } from "react";
+import { FormEvent, useCallback, useEffect, useState, FC } from "react";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { container, label, submitError, validationError } from "./playlist-form.css";
@@ -8,14 +8,14 @@ type Props = {
   onSubmit: (name: string) => void;
 };
 
-export const PlaylistForm: VFC<Props> = (props) => {
+export const PlaylistForm: FC<Props> = (props) => {
   const { onSubmit } = props;
   const [name, setName] = useState<string>();
   const [pristine, setPristine] = useState<boolean>(true);
   const [valid, setValid] = useState(false);
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
 
-  const handleNameChange = useCallback((newName) => {
+  const handleNameChange = useCallback((newName: string) => {
     setSubmitErrorMessage(undefined);
     if (newName === "") {
       setName(undefined);

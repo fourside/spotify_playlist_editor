@@ -1,8 +1,8 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, VFC } from "react";
+import { useCallback, useEffect, FC } from "react";
 
-export const Index: VFC = () => {
+export const Index: FC = () => {
   const { status: sessionStatus } = useSession();
   const router = useRouter();
 

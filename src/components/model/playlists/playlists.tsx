@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useCallback, useState, VFC } from "react";
+import { useCallback, useState, FC } from "react";
 import { Track } from "../../../model";
 import { PlusIcon } from "../../ui/icons";
 import { Button } from "../../ui/button";
@@ -14,7 +14,7 @@ type Props = {
   onTrackInfoClick: (track: Track) => void;
 };
 
-export const PlaylistsComponent: VFC<Props> = (props) => {
+export const PlaylistsComponent: FC<Props> = (props) => {
   const { loading, myPlaylists, error, onCreatePlaylist } = useMyPlaylists();
 
   const [open, setOpen] = useState(false);

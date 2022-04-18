@@ -1,10 +1,10 @@
-import { VFC } from "react";
+import { FC } from "react";
 
 type IconProps = {
   className?: string;
 };
 
-export const InfoIcon: VFC<IconProps> = (props) => (
+export const InfoIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -24,7 +24,7 @@ export const InfoIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const CloseIcon: VFC<IconProps> = (props) => (
+export const CloseIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -43,7 +43,7 @@ export const CloseIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const SignOutIcon: VFC<IconProps> = (props) => (
+export const SignOutIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -62,7 +62,7 @@ export const SignOutIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const UserIcon: VFC<IconProps> = (props) => (
+export const UserIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -82,7 +82,7 @@ export const UserIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const ChevronDownIcon: VFC<IconProps> = (props) => (
+export const ChevronDownIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -100,7 +100,7 @@ export const ChevronDownIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const PlaylistIcon: VFC<IconProps> = (props) => (
+export const PlaylistIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -122,7 +122,7 @@ export const PlaylistIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const CautionIcon: VFC<IconProps> = (props) => (
+export const CautionIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -141,7 +141,7 @@ export const CautionIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const PlusIcon: VFC<IconProps> = (props) => (
+export const PlusIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}
@@ -160,7 +160,7 @@ export const PlusIcon: VFC<IconProps> = (props) => (
   </svg>
 );
 
-export const HeartIcon: VFC<IconProps> = (props) => (
+export const HeartIcon: FC<IconProps> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={props.className}

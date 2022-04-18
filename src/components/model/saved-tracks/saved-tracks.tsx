@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useCallback, useState, VFC } from "react";
+import { useCallback, useState, FC } from "react";
 import { useIntersectionObserver } from "../../../hooks/use-intersection-observer";
 import { Track } from "../../../model";
 import { HeartIcon } from "../../ui/icons";
@@ -13,7 +13,7 @@ type Props = {
   onTrackInfoClick: (track: Track) => void;
 };
 
-export const SavedTracksComponent: VFC<Props> = (props) => {
+export const SavedTracksComponent: FC<Props> = (props) => {
   const { loading, savedTracks, error, canReadMore, onAdd, onRemove, readMore } = useSavedTracks();
   const [moving, setMoving] = useState(false);
 

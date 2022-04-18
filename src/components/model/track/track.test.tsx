@@ -339,7 +339,7 @@ describe("track", () => {
     expect(onDragEnd).not.toHaveBeenCalled();
   });
 
-  test("click button fire onClickInformation", () => {
+  test("click button fire onClickInformation", async () => {
     // arrange
     const onClickInformation = jest.fn();
     render(
@@ -356,7 +356,7 @@ describe("track", () => {
       </DndProvider>
     );
     // act
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // assert
     expect(onClickInformation).toHaveBeenCalled();
   });

@@ -250,7 +250,7 @@ describe("saved tracks", () => {
     );
     await screen.findByRole("list");
     // act
-    userEvent.click(screen.getAllByRole("button")[2]); // third one
+    await userEvent.click(screen.getAllByRole("button")[2]); // third one
     // assert
     expect(onTrackInfoClick).toHaveBeenCalledWith(fixtureTracks[2]);
   });
