@@ -91,11 +91,11 @@ describe("playlists", () => {
     const firstPlaylist = playlistComponentList.children[0];
     assert(firstPlaylist instanceof HTMLElement);
     const accordionButton = within(firstPlaylist).getByRole("button");
-    userEvent.click(accordionButton);
+    await userEvent.click(accordionButton);
     await within(firstPlaylist).findByRole("list");
     const buttons = within(firstPlaylist).getAllByRole("button");
     // act
-    userEvent.click(buttons[1]); // first button is accordion's one
+    await userEvent.click(buttons[1]); // first button is accordion's one
     // assert
     expect(onTrackInfoClick).toHaveBeenCalledWith(fixtureTrack);
   });
@@ -111,7 +111,7 @@ describe("playlists", () => {
     );
     const buttons = await screen.findAllByRole("button");
     // act
-    userEvent.click(buttons[3]); // 3 playlist accordions to have one button, then modal button is 4th
+    await userEvent.click(buttons[3]); // 3 playlist accordions to have one button, then modal button is 4th
     // assert
     expect(await screen.findByRole("dialog")).toBeInTheDocument();
   });
@@ -126,10 +126,10 @@ describe("playlists", () => {
       </DndProvider>
     );
     const buttons = await screen.findAllByRole("button");
-    userEvent.click(buttons[3]); // 3 playlist accordions to have one button, then modal button is 4th
+    await userEvent.click(buttons[3]); // 3 playlist accordions to have one button, then modal button is 4th
     const modal = await screen.findByRole("dialog");
     // act
-    userEvent.type(within(modal).getByLabelText("playlist name"), "playlist4{enter}");
+    await userEvent.type(within(modal).getByLabelText("playlist name"), "playlist4{enter}");
     // assert
     await waitFor(() => {
       expect(screen.getByRole("list").childNodes.length).toBe(4);

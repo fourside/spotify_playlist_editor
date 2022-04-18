@@ -41,7 +41,7 @@ describe("modal", () => {
       </Modal>
     );
     // act
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // assert
     expect(onClose).toHaveBeenCalled();
   });
@@ -56,7 +56,7 @@ describe("modal", () => {
       </Modal>
     );
     // act
-    userEvent.keyboard("{escape}");
+    await userEvent.keyboard("{escape}");
     // assert
     expect(onClose).toHaveBeenCalled();
   });
@@ -71,7 +71,7 @@ describe("modal", () => {
       </Modal>
     );
     // act
-    userEvent.click(screen.getByTestId("backdrop"));
+    await userEvent.click(screen.getByTestId("backdrop"));
     // assert
     expect(onClose).toHaveBeenCalled();
   });
@@ -89,9 +89,9 @@ describe("modal", () => {
       </div>
     );
     // act
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
+    await userEvent.tab();
+    await userEvent.tab();
+    await userEvent.tab();
     // assert
     expect(screen.getByRole("button")).toHaveFocus();
   });

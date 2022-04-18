@@ -121,7 +121,7 @@ describe("playlist", () => {
         <PlaylistComponent playlist={playlist} onClickInformation={() => {}} />
       </DndProvider>
     );
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // assert
     expect(screen.queryByRole("list")).not.toBeInTheDocument(); // loading
     const list = await screen.findByRole("list");
@@ -144,7 +144,7 @@ describe("playlist", () => {
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     const list = await screen.findByRole("list");
     const targetTrack = list.childNodes[1];
     const listItems = screen.getAllByRole("listitem");
@@ -190,7 +190,7 @@ describe("playlist", () => {
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[1]);
+    await userEvent.click(screen.getAllByRole("button")[1]);
     const list = await screen.findByRole("list");
     const targetTrackElement = list.childNodes[1];
     // eslint-disable-next-line testing-library/no-node-access
@@ -226,7 +226,7 @@ describe("playlist", () => {
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[0]);
+    await userEvent.click(screen.getAllByRole("button")[0]);
     // assert
     expect(await screen.findByText("No tracks")).toBeInTheDocument();
   });
@@ -249,7 +249,7 @@ describe("playlist", () => {
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[0]);
+    await userEvent.click(screen.getAllByRole("button")[0]);
     // assert
     expect(await screen.findByText(/error: /)).toBeInTheDocument();
   });
@@ -268,10 +268,10 @@ describe("playlist", () => {
         </SwrNoCacheWrapper>
       </DndProvider>
     );
-    userEvent.click(screen.getAllByRole("button")[0]);
+    await userEvent.click(screen.getAllByRole("button")[0]);
     await screen.findByRole("list");
     // act
-    userEvent.click(screen.getAllByRole("button")[2]);
+    await userEvent.click(screen.getAllByRole("button")[2]);
     // assert
     expect(onClickInformation).toHaveBeenCalledWith(fixtureTracks[1]);
   });

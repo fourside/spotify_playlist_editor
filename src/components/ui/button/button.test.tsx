@@ -12,7 +12,7 @@ describe("button", () => {
         button
       </Button>
     );
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // assert
     expect(onClick).toHaveBeenCalledTimes(1);
   });
@@ -26,7 +26,7 @@ describe("button", () => {
         button
       </Button>
     );
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     // assert
     expect(onClick).not.toHaveBeenCalled();
   });

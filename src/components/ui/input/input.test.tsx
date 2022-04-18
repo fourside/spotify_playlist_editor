@@ -8,7 +8,7 @@ describe("input", () => {
     const onChange = jest.fn();
     // act
     render(<Input onChange={onChange} value={""} />);
-    userEvent.type(screen.getByRole("textbox"), "test");
+    await userEvent.type(screen.getByRole("textbox"), "test");
     // assert
     expect(onChange).toHaveBeenCalledTimes("test".length);
     expect(onChange).toHaveBeenCalledWith("t");
@@ -22,7 +22,7 @@ describe("input", () => {
     const onChange = jest.fn();
     // act
     render(<Input onChange={onChange} value={""} disabled={true} />);
-    userEvent.type(screen.getByRole("textbox"), "test");
+    await userEvent.type(screen.getByRole("textbox"), "test");
     // assert
     expect(onChange).not.toHaveBeenCalled();
   });
