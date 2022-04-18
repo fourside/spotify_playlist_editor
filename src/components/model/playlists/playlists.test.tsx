@@ -4,7 +4,7 @@ import { rest } from "msw";
 import { factory, primaryKey, drop } from "@mswjs/data";
 import { Playlist, PlaylistsResponse, PlaylistTrackResponse, Track } from "../../../model";
 import { PlaylistsComponent } from ".";
-import userEvent from "@testing-library/user-event";
+import userEvent, { PointerEventsCheckLevel } from "@testing-library/user-event";
 import assert from "assert";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -129,7 +129,9 @@ describe("playlists", () => {
     await userEvent.click(buttons[3]); // 3 playlist accordions to have one button, then modal button is 4th
     const modal = await screen.findByRole("dialog");
     // act
-    await userEvent.type(within(modal).getByLabelText("playlist name"), "playlist4{enter}");
+    await userEvent.type(within(modal).getByLabelText("playlist name"), "playlist4{enter}", {
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    });
     // assert
     await waitFor(() => {
       expect(screen.getByRole("list").childNodes.length).toBe(4);
